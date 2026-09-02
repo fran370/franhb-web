@@ -1,0 +1,802 @@
+/* ==========================================================================
+   franhb.com — sistema visual
+   Concepto: la placa de operación cerrada (tombstone). Una cinta vertical
+   recorre el flujo; cada entrada cuelga de ella con su etiqueta grabada.
+   ========================================================================== */
+
+:root {
+  /* Color */
+  --papel: #f1f2ef;
+  --papel-hondo: #e7e9e4;
+  --tinta: #14181a;
+  --apagado: #6e7671;
+  --linea: #d7dad4;
+  --verdin: #1e5c4f;
+  --laton: #b08d57;
+
+  /* Tipografía */
+  --serif: 'Spectral', Georgia, 'Times New Roman', serif;
+  --sans: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --mono: 'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+
+  /* Ritmo */
+  --ancho: 42rem;
+  --cinta: 1.75rem; /* distancia del texto a la cinta vertical */
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --papel: #14181a;
+    --papel-hondo: #1b2022;
+    --tinta: #e8eae6;
+    --apagado: #8f9793;
+    --linea: #2a3033;
+    --verdin: #6fbfa8;
+    --laton: #c9a674;
+  }
+}
+
+/* Anula la preferencia del sistema cuando hay una elección manual guardada
+   (botón de la cabecera). Ver el script inline en Base.astro. */
+:root[data-tema='claro'] {
+  --papel: #f1f2ef;
+  --papel-hondo: #e7e9e4;
+  --tinta: #14181a;
+  --apagado: #6e7671;
+  --linea: #d7dad4;
+  --verdin: #1e5c4f;
+  --laton: #b08d57;
+}
+
+:root[data-tema='oscuro'] {
+  --papel: #14181a;
+  --papel-hondo: #1b2022;
+  --tinta: #e8eae6;
+  --apagado: #8f9793;
+  --linea: #2a3033;
+  --verdin: #6fbfa8;
+  --laton: #c9a674;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--papel);
+  color: var(--tinta);
+  font-family: var(--serif);
+  font-size: 1.0625rem;
+  line-height: 1.65;
+  font-variant-numeric: oldstyle-nums;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: inherit;
+  text-decoration-color: var(--linea);
+  text-underline-offset: 0.18em;
+  text-decoration-thickness: 1px;
+  transition: text-decoration-color 0.15s ease, color 0.15s ease;
+}
+
+a:hover {
+  text-decoration-color: var(--verdin);
+  color: var(--verdin);
+}
+
+:focus-visible {
+  outline: 2px solid var(--verdin);
+  outline-offset: 3px;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+hr {
+  border: 0;
+  border-top: 1px solid var(--linea);
+  margin: 2.5rem 0;
+}
+
+blockquote {
+  margin: 1.5rem 0;
+  padding-left: 1.1rem;
+  border-left: 2px solid var(--laton);
+  font-style: italic;
+  color: var(--tinta);
+}
+
+code {
+  font-family: var(--mono);
+  font-size: 0.9em;
+}
+
+/* --- Utilidades tipográficas --------------------------------------------- */
+
+.marca {
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-variant-numeric: lining-nums;
+  color: var(--apagado);
+}
+
+.envoltorio {
+  width: 100%;
+  max-width: var(--ancho);
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+/* --- Cabecera ------------------------------------------------------------- */
+
+.cabecera {
+  padding: 3.5rem 0 2rem;
+}
+
+.cabecera__identidad {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.cabecera__foto {
+  width: 3.25rem;
+  height: 3.25rem;
+  border-radius: 50%;
+  object-fit: cover;
+  background: var(--papel-hondo);
+  flex-shrink: 0;
+}
+
+.cabecera__nombre {
+  font-size: 1.375rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.cabecera__nombre a {
+  text-decoration: none;
+}
+
+.cabecera__rol {
+  margin: 0.15rem 0 0;
+  font-family: var(--sans);
+  font-size: 0.875rem;
+  color: var(--apagado);
+}
+
+.cabecera__social {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-left: 0.4rem;
+  vertical-align: middle;
+}
+
+.cabecera__social a {
+  display: inline-flex;
+  color: var(--apagado);
+  text-decoration: none;
+}
+
+.cabecera__social a:hover {
+  color: var(--verdin);
+}
+
+.cabecera__social svg {
+  width: 14px;
+  height: 14px;
+}
+
+.cabecera__lema {
+  margin: 1.75rem 0 0;
+  font-size: 1.1875rem;
+  line-height: 1.55;
+  max-width: 34rem;
+  text-wrap: pretty;
+}
+
+.cabecera__nav {
+  margin-top: 1.75rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+  font-family: var(--sans);
+  font-size: 0.9375rem;
+}
+
+.cabecera__nav a {
+  text-decoration: none;
+  border-bottom: 1px solid var(--linea);
+  padding-bottom: 2px;
+}
+
+.cabecera__acciones {
+  display: flex;
+  gap: 0.5rem;
+  margin-left: auto;
+}
+
+.boton-icono {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border: 1px solid var(--linea);
+  background: none;
+  color: var(--apagado);
+  text-decoration: none;
+  cursor: pointer;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+
+.boton-icono:hover {
+  color: var(--verdin);
+  border-color: var(--verdin);
+  text-decoration: none;
+}
+
+.boton-icono[aria-current='page'] {
+  color: var(--tinta);
+  border-color: var(--tinta);
+}
+
+.boton-icono svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+.boton-icono .icono-sol {
+  display: none;
+}
+
+:root[data-tema='oscuro'] .boton-icono .icono-luna {
+  display: none;
+}
+
+:root[data-tema='oscuro'] .boton-icono .icono-sol {
+  display: block;
+}
+
+/* --- Filtros del flujo ---------------------------------------------------- */
+
+.filtros {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.5rem 1.25rem;
+  padding: 1rem 0;
+  border-top: 1px solid var(--linea);
+  border-bottom: 1px solid var(--linea);
+  margin-bottom: 3rem;
+}
+
+/* Las dos filas de .filtros (formato y tema) forman un único bloque con dos
+   ejes: una sola línea entre ellas (no el borde doble + margen de antes),
+   con un pequeño respiro a cada lado. */
+.filtros--formato {
+  border-bottom: 1px solid var(--linea);
+  margin-bottom: 0;
+  padding-bottom: 0.75rem;
+}
+
+.filtros--tema {
+  border-top: none;
+  padding-top: 0.75rem;
+}
+
+.filtros a {
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--apagado);
+}
+
+.filtros a:hover {
+  color: var(--verdin);
+}
+
+.filtros a[aria-current='page'] {
+  color: var(--tinta);
+}
+
+/* --- Paginación ------------------------------------------------------------ */
+
+.paginacion {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--linea);
+  font-family: var(--sans);
+  font-size: 0.9375rem;
+}
+
+.paginacion a {
+  text-decoration: none;
+}
+
+.paginacion__inactivo {
+  color: var(--linea);
+}
+
+.paginacion__estado {
+  flex-shrink: 0;
+}
+
+/* --- Buscador --------------------------------------------------------------- */
+
+.buscar {
+  padding: 1rem 0 3rem;
+}
+
+.buscar__campo {
+  width: 100%;
+  padding: 0.75rem 0;
+  border: none;
+  border-bottom: 1px solid var(--linea);
+  background: none;
+  color: var(--tinta);
+  font-family: var(--serif);
+  font-size: 1.375rem;
+}
+
+.buscar__campo:focus {
+  outline: none;
+  border-color: var(--verdin);
+}
+
+.buscar__estado {
+  margin: 1rem 0;
+}
+
+.buscar__resultados {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.buscar__resultado {
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--linea);
+}
+
+.buscar__resultado a {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.75rem;
+  text-decoration: none;
+}
+
+.buscar__titulo {
+  font-family: var(--serif);
+  font-size: 1.0625rem;
+}
+
+.buscar__extracto {
+  margin: 0.35rem 0 0;
+  font-family: var(--sans);
+  font-size: 0.875rem;
+  color: var(--apagado);
+}
+
+/* --- La cinta: el flujo de entradas --------------------------------------- */
+
+.cinta {
+  position: relative;
+  padding-left: var(--cinta);
+  list-style: none;
+  margin: 0;
+}
+
+/* la línea continua que recorre todo el flujo */
+.cinta::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.45rem;
+  bottom: 0.45rem;
+  width: 1px;
+  background: var(--linea);
+}
+
+.entrada {
+  position: relative;
+  padding-bottom: 3.25rem;
+  margin-bottom: 3.25rem;
+  border-bottom: 1px solid var(--linea);
+}
+
+.entrada:last-child {
+  border-bottom: 0;
+}
+
+/* la marca grabada: un cuadrado de latón sobre la cinta */
+.entrada::before {
+  content: '';
+  position: absolute;
+  left: calc(-1 * var(--cinta) - 3px);
+  top: 0.55rem;
+  width: 7px;
+  height: 7px;
+  background: var(--laton);
+}
+
+.entrada--ensayo::before,
+.entrada--resena::before,
+.entrada--maweekly::before {
+  background: var(--verdin);
+  width: 7px;
+  height: 21px;
+}
+
+.entrada__portada {
+  display: block;
+  margin: 0 0 1rem;
+  border: 1px solid var(--linea);
+}
+
+.entrada__portada img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.entrada__marca {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.entrada__tipo {
+  color: var(--verdin);
+  text-decoration: none;
+}
+
+.entrada__titulo {
+  font-size: 1.5rem;
+  line-height: 1.25;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  margin: 0 0 0.5rem;
+  text-wrap: balance;
+}
+
+.entrada__titulo a {
+  text-decoration: none;
+}
+
+.entrada__resumen {
+  margin: 0;
+  color: var(--apagado);
+}
+
+.entrada__cuerpo > :first-child {
+  margin-top: 0;
+}
+
+.entrada__cuerpo > :last-child {
+  margin-bottom: 0;
+}
+
+.entrada__pie {
+  margin-top: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+  align-items: baseline;
+}
+
+.entrada__pie a {
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--apagado);
+  text-decoration: none;
+  border-bottom: 1px solid var(--linea);
+}
+
+.entrada__fuente {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  color: var(--apagado);
+  word-break: break-word;
+}
+
+/* --- La placa: operaciones de MAweekly ------------------------------------ */
+
+.placa {
+  margin: 1.25rem 0 0;
+  border: 1px solid var(--linea);
+  background: var(--papel-hondo);
+  padding: 0.25rem 0;
+}
+
+.placa__fila {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.25rem 1rem;
+  padding: 0.7rem 1rem;
+  border-bottom: 1px solid var(--linea);
+}
+
+.placa__fila:last-child {
+  border-bottom: 0;
+}
+
+.placa__operacion {
+  font-family: var(--sans);
+  font-size: 0.9375rem;
+  line-height: 1.4;
+}
+
+.placa__objetivo {
+  font-weight: 500;
+}
+
+.placa__sector {
+  display: block;
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--apagado);
+  margin-top: 0.2rem;
+}
+
+.placa__importe {
+  font-family: var(--mono);
+  font-size: 0.8125rem;
+  font-variant-numeric: lining-nums tabular-nums;
+  color: var(--verdin);
+  white-space: nowrap;
+  align-self: center;
+}
+
+/* --- Cita ----------------------------------------------------------------- */
+
+.cita {
+  margin: 0;
+  font-size: 1.1875rem;
+  line-height: 1.55;
+}
+
+.cita p {
+  font-style: italic;
+  margin: 0 0 0.75rem;
+}
+
+.cita__autoria {
+  font-family: var(--sans);
+  font-size: 0.875rem;
+  font-style: normal;
+  color: var(--apagado);
+}
+
+/* --- Página de contenido -------------------------------------------------- */
+
+.pagina {
+  padding-bottom: 4rem;
+}
+
+.pagina__titulo {
+  font-size: 2.125rem;
+  line-height: 1.15;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  margin: 0.75rem 0 1rem;
+  text-wrap: balance;
+}
+
+.pagina__portada {
+  margin: 1.5rem 0;
+  border: 1px solid var(--linea);
+}
+
+.pagina__portada img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.prosa {
+  font-size: 1.125rem;
+}
+
+.prosa a {
+  color: var(--verdin);
+  text-decoration-color: var(--verdin);
+  text-decoration-thickness: 1px;
+}
+
+.prosa a:hover {
+  text-decoration-thickness: 2px;
+}
+
+.prosa h2 {
+  font-size: 1.375rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  margin: 2.5rem 0 0.75rem;
+}
+
+.prosa h3 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin: 2rem 0 0.5rem;
+}
+
+.prosa ul,
+.prosa ol {
+  padding-left: 1.25rem;
+}
+
+.prosa li {
+  margin-bottom: 0.4rem;
+}
+
+.prosa img {
+  display: block;
+  margin: 2rem 0;
+  border: 1px solid var(--linea);
+}
+
+.volver {
+  display: inline-block;
+  margin-top: 3rem;
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--apagado);
+}
+
+/* --- Newsletter ----------------------------------------------------------- */
+
+.boletin {
+  margin: 4rem 0 0;
+  padding: 1.75rem;
+  border: 1px solid var(--linea);
+  background: var(--papel-hondo);
+}
+
+.boletin__titulo {
+  font-size: 1.1875rem;
+  font-weight: 600;
+  margin: 0.6rem 0 0.4rem;
+}
+
+.boletin__texto {
+  margin: 0 0 1.25rem;
+  font-size: 0.9375rem;
+  color: var(--apagado);
+}
+
+.boletin__formulario {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.boletin__campo {
+  flex: 1 1 14rem;
+  padding: 0.65rem 0.75rem;
+  border: 1px solid var(--linea);
+  background: var(--papel);
+  color: var(--tinta);
+  font-family: var(--sans);
+  font-size: 0.9375rem;
+  border-radius: 0;
+}
+
+.boletin__campo::placeholder {
+  color: var(--apagado);
+}
+
+.boletin__boton {
+  display: inline-block;
+  padding: 0.65rem 1.25rem;
+  border: 1px solid var(--verdin);
+  background: var(--verdin);
+  color: var(--papel);
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  border-radius: 0;
+}
+
+.boletin__boton:hover {
+  background: transparent;
+  color: var(--verdin);
+}
+
+/* --- Pie ------------------------------------------------------------------ */
+
+.pie {
+  margin-top: 4rem;
+  padding: 2rem 0 3.5rem;
+  border-top: 1px solid var(--linea);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.25rem;
+  align-items: baseline;
+}
+
+.pie a {
+  text-decoration: none;
+}
+
+.pie__nota {
+  margin-left: auto;
+}
+
+/* --- Movimiento ----------------------------------------------------------- */
+
+@media (prefers-reduced-motion: no-preference) {
+  .cinta > .entrada {
+    animation: aparecer 0.5s ease both;
+    animation-delay: calc(var(--orden, 0) * 60ms);
+  }
+}
+
+@keyframes aparecer {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* --- Pantallas estrechas -------------------------------------------------- */
+
+@media (max-width: 34rem) {
+  :root {
+    --cinta: 1.25rem;
+  }
+
+  .cabecera {
+    padding-top: 2.5rem;
+  }
+
+  .entrada__titulo {
+    font-size: 1.3125rem;
+  }
+
+  .pagina__titulo {
+    font-size: 1.75rem;
+  }
+
+  .placa__fila {
+    grid-template-columns: 1fr;
+  }
+}

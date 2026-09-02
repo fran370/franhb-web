@@ -1,0 +1,127 @@
+---
+import { render } from 'astro:content';
+import { TIPOS, TEMAS, SERIES } from '../consts';
+import {
+  rutaDe,
+  rutaFormatoDe,
+  fechaCinta,
+  iso,
+  dominio,
+  type Entrada,
+} from '../utils/entradas';
+
+interface Props {
+  entrada: Entrada;
+  orden?: number;
+}
+
+const { entrada, orden = 0 } = Astro.props;
+const { data } = entrada;
+const tipo = TIPOS[data.tipo];
+const ruta = rutaDe(entrada);
+// Solo se muestra si la serie viene explícita en el frontmatter (no el
+// valor por defecto de MAweekly), para no repetir "MAWEEKLY · M&A Weekly".
+const serie = data.serie ? SERIES[data.serie] : null;
+
+// Posts, podcasts y citas se leen enteros en el flujo. Artículos y MAweekly
+// se abren aparte: son largos y merecen su propia página.
+const { Content } = tipo.completo ? await render(entrada) : { Content: null };
+---
+
+<article class={`entrada entrada--${data.tipo}`} style={`--orden:${orden}`}>
+  {
+    data.portada && (
+      <a class="entrada__portada" href={ruta}>
+        <img src={data.portada} alt="" loading="lazy" />
+      </a>
+    )
+  }
+  <div class="entrada__marca marca">
+    <a class="entrada__tipo" href={rutaFormatoDe(entrada)}>
+      {tipo.etiqueta}
+    </a>
+    {
+      serie && (
+        <>
+          {' · '}
+          <a href={`/temas/${TEMAS[serie.tema].ruta}/${serie.ruta}/`}>{serie.etiqueta}</a>
+        </>
+      )
+    }
+    <time datetime={iso(data.fecha)}>{fechaCinta(data.fecha)}</time>
+  </div>
+
+  {
+    (data.tipo === 'podcast' || data.tipo === 'video') && data.url && (
+      <>
+        <h2 class="entrada__titulo">
+          <a href={data.url} rel="noopener">
+            {data.titulo} <span aria-hidden="true">↗</span>
+          </a>
+        </h2>
+        <p class="entrada__fuente">{dominio(data.url)}</p>
+      </>
+    )
+  }
+
+  {
+    (data.tipo === 'ensayo' || data.tipo === 'resena' || data.tipo === 'maweekly') && (
+      <>
+        <h2 class="entrada__titulo">
+          <a href={ruta}>{data.titulo}</a>
+        </h2>
+        {data.resumen && <p class="entrada__resumen">{data.resumen}</p>}
+      </>
+    )
+  }
+
+  {
+    data.tipo === 'cita' && (
+      <figure class="cita">
+        <Content />
+        {
+          (data.autor || data.url) && (
+            <figcaption class="cita__autoria">
+              {data.autor ? (
+                <>
+                  {data.autorUrl ? <a href={data.autorUrl}>{data.autor}</a> : data.autor}
+                  {data.obra && (
+                    <>
+                      {' en '}
+                      {data.obraUrl ? <a href={data.obraUrl}>{data.obra}</a> : data.obra}
+                    </>
+                  )}
+                </>
+              ) : (
+                <a href={data.url} rel="noopener">{dominio(data.url)}</a>
+              )}
+            </figcaption>
+          )
+        }
+      </figure>
+    )
+  }
+
+  {
+    (data.tipo === 'post' || data.tipo === 'podcast' || data.tipo === 'video') && (
+      <div class="entrada__cuerpo prosa">
+        <Content />
+      </div>
+    )
+  }
+
+  <div class="entrada__pie">
+    {
+      (data.tipo === 'post' || data.tipo === 'podcast' || data.tipo === 'cita' || data.tipo === 'video') && (
+        <a href={ruta}>Enlace permanente</a>
+      )
+    }
+    {
+      data.sindicado?.map((s) => (
+        <a href={s.url} rel="syndication noopener">
+          También en {s.red}
+        </a>
+      ))
+    }
+  </div>
+</article>

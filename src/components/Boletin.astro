@@ -1,0 +1,62 @@
+---
+interface Props {
+  /** Qué lista se ofrece: el boletín semanal MAweekly, o las novedades generales. */
+  tipo?: 'maweekly' | 'novedades';
+}
+
+const { tipo = 'maweekly' } = Astro.props;
+
+// Placeholder: sustituye por la URL del formulario de tu proveedor
+// (Kit, Beehiiv, Buttondown, Mailerlite...) cuando montes la lista de novedades.
+const CONTENIDO = {
+  maweekly: {
+    marca: 'Boletín semanal',
+    titulo: 'MAweekly',
+    texto:
+      'Cada lunes, las operaciones de M&A y private equity que se han movido en España durante la semana. Sin ruido y en cinco minutos.',
+    enlace: 'https://maweekly.substack.com/subscribe',
+  },
+  novedades: {
+    marca: 'Newsletter, para estar en contacto',
+    titulo: 'Últimas novedades',
+    texto:
+      'Un aviso cuando publico algo nuevo: ensayos, reseñas, nuevas citas y el resto de novedades (podcasts, eventos, etc.).',
+    accion: 'https://app.kit.com/forms/TU_ID_NOVEDADES/subscriptions',
+    campoId: 'email-novedades',
+  },
+}[tipo];
+---
+
+<section class="boletin">
+  <p class="marca">{CONTENIDO.marca}</p>
+  <h2 class="boletin__titulo">{CONTENIDO.titulo}</h2>
+  <p class="boletin__texto">{CONTENIDO.texto}</p>
+  {
+    'enlace' in CONTENIDO ? (
+      <a class="boletin__boton" href={CONTENIDO.enlace} rel="noopener">
+        Suscribirme en Substack ↗
+      </a>
+    ) : (
+      <form class="boletin__formulario" action={CONTENIDO.accion} method="post">
+        <label
+          class="marca"
+          for={CONTENIDO.campoId}
+          style="position:absolute;left:-9999px"
+        >
+          Tu email
+        </label>
+        <input
+          class="boletin__campo"
+          id={CONTENIDO.campoId}
+          type="email"
+          name="email_address"
+          placeholder="tu@email.com"
+          required
+        />
+        <button class="boletin__boton" type="submit">
+          Suscribirme
+        </button>
+      </form>
+    )
+  }
+</section>

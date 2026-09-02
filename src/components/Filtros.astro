@@ -1,0 +1,77 @@
+---
+import { MENU_FORMATOS, TEMAS, LISTA_TEMAS, type ClaveFormato, type Tema } from '../consts';
+
+// Se autodetecta a partir de la URL, como la nav de Cabecera: así cualquier
+// página (actual o futura) que incluya <Filtros /> marca el activo correcto
+// sin tener que pasárselo. Son dos ejes independientes (formato y tema) que
+// se pueden combinar (/videos/temas/lecturas/): al cambiar de eje se
+// conserva el filtro activo en el otro, no se resetea a "Todo".
+const ruta = Astro.url.pathname;
+
+let formatoActivo: ClaveFormato | 'todo' = 'todo';
+let temaActivo: Tema | 'todos' = 'todos';
+
+const formatoConTema = MENU_FORMATOS.find((formato) => ruta.startsWith(`/${formato.ruta}/temas/`));
+if (formatoConTema) {
+  formatoActivo = formatoConTema.clave;
+  const tema = LISTA_TEMAS.find((tema) =>
+    ruta.startsWith(`/${formatoConTema.ruta}/temas/${TEMAS[tema].ruta}/`)
+  );
+  if (tema) temaActivo = tema;
+} else {
+  const formato = MENU_FORMATOS.find((formato) => ruta.startsWith(`/${formato.ruta}/`));
+  if (formato) formatoActivo = formato.clave;
+  const tema = LISTA_TEMAS.find((tema) => ruta.startsWith(`/temas/${TEMAS[tema].ruta}/`));
+  if (tema) temaActivo = tema;
+}
+
+const rutaFormato = MENU_FORMATOS.find((f) => f.clave === formatoActivo)?.ruta;
+
+/** Enlace de la fila de formato: conserva el tema activo, si lo hay. Citas
+ * no tiene tema (a propósito), así que nunca se combina: siempre muestra
+ * todas las citas, aunque hubiera un tema activo en el otro eje. */
+function hrefFormato(formato?: (typeof MENU_FORMATOS)[number]): string {
+  if (formato?.clave === 'cita' || temaActivo === 'todos') {
+    return formato ? `/${formato.ruta}/` : '/';
+  }
+  const temaRuta = TEMAS[temaActivo].ruta;
+  return formato ? `/${formato.ruta}/temas/${temaRuta}/` : `/temas/${temaRuta}/`;
+}
+
+/** Enlace de la fila de tema: conserva el formato activo, si lo hay — salvo
+ * que sea "Citas", que no combina con tema (ver hrefFormato). */
+function hrefTema(temaRuta?: string): string {
+  if (formatoActivo === 'todo' || formatoActivo === 'cita') {
+    return temaRuta ? `/temas/${temaRuta}/` : '/';
+  }
+  return temaRuta ? `/${rutaFormato}/temas/${temaRuta}/` : `/${rutaFormato}/`;
+}
+---
+
+<nav class="filtros filtros--formato" aria-label="Filtrar por formato">
+  <a href={hrefFormato()} aria-current={formatoActivo === 'todo' ? 'page' : undefined}>Todo</a>
+  {
+    MENU_FORMATOS.map((formato) => (
+      <a
+        href={hrefFormato(formato)}
+        aria-current={formatoActivo === formato.clave ? 'page' : undefined}
+      >
+        {formato.etiqueta}
+      </a>
+    ))
+  }
+</nav>
+
+<nav class="filtros filtros--tema" aria-label="Filtrar por tema">
+  <a href={hrefTema()} aria-current={temaActivo === 'todos' ? 'page' : undefined}>Todos los temas</a>
+  {
+    LISTA_TEMAS.map((tema) => (
+      <a
+        href={hrefTema(TEMAS[tema].ruta)}
+        aria-current={temaActivo === tema ? 'page' : undefined}
+      >
+        {TEMAS[tema].etiqueta}
+      </a>
+    ))
+  }
+</nav>

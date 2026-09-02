@@ -1,0 +1,27 @@
+---
+import Base from '../layouts/Base.astro';
+import Boletin from '../components/Boletin.astro';
+import Filtros from '../components/Filtros.astro';
+---
+
+<Base
+  titulo="Newsletter"
+  descripcion="Suscríbete a mis novedades y publicaciones, o solo al boletín semanal MAweekly de M&A y Private Equity."
+>
+  <Filtros />
+  <article class="pagina">
+    <h1 class="pagina__titulo">Newsletter</h1>
+    <div class="prosa">
+      <p>
+        Dos formas de recibir lo que escribo, según lo que te interese: todas
+        las novedades, o solo el resumen semanal de M&amp;A.
+      </p>
+    </div>
+
+    <Boletin tipo="novedades" />
+
+    <Boletin tipo="maweekly" />
+
+    <a class="volver" href="/">← Volver a inicio</a>
+  </article>
+</Base>

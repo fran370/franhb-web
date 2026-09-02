@@ -1,0 +1,36 @@
+---
+import { render, getEntry } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import Filtros from '../components/Filtros.astro';
+import Boletin from '../components/Boletin.astro';
+import { SITIO, SOCIAL } from '../consts';
+
+const descripcion = 'Socio en IMAP – Albia Capital. M&A en el mercado medio español.';
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: SITIO.nombre,
+  jobTitle: SITIO.rol,
+  url: SITIO.url,
+  worksFor: { '@type': 'Organization', name: SITIO.rol, url: SITIO.rolUrl },
+  sameAs: SOCIAL.filter((s) => s.url.startsWith('http')).map((s) => s.url),
+};
+
+// El cuerpo se edita en Notion y se trae con:
+// node --env-file=.env scripts/importar-paginas.mjs
+const pagina = await getEntry('paginas', 'sobre-mi');
+const { Content } = await render(pagina);
+---
+
+<Base titulo="Sobre mí" descripcion={descripcion} jsonLd={jsonLd}>
+  <Filtros />
+  <article class="pagina">
+    <h1 class="pagina__titulo">Sobre mí</h1>
+    <div class="prosa">
+      <Content />
+    </div>
+    <Boletin tipo="novedades" />
+    <a class="volver" href="/">← Volver a inicio</a>
+  </article>
+</Base>

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://franhb.com/sitemap-index.xml

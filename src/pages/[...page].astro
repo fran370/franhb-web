@@ -1,0 +1,45 @@
+---
+import type { Page } from 'astro';
+import Base from '../layouts/Base.astro';
+import Filtros from '../components/Filtros.astro';
+import Entrada from '../components/Entrada.astro';
+import Boletin from '../components/Boletin.astro';
+import Paginacion from '../components/Paginacion.astro';
+import { todasLasEntradas, type Entrada as TEntrada } from '../utils/entradas';
+import { TAMANO_PAGINA, SITIO } from '../consts';
+
+export async function getStaticPaths({ paginate }: { paginate: Function }) {
+  const entradas = await todasLasEntradas();
+  return paginate(entradas, { pageSize: TAMANO_PAGINA });
+}
+
+const { page } = Astro.props as { page: Page<TEntrada> };
+const titulo = page.currentPage > 1 ? `Página ${page.currentPage}` : undefined;
+
+const jsonLd = page.currentPage === 1 && {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: SITIO.nombre,
+  description: SITIO.lema,
+  url: SITIO.url,
+  potentialAction: {
+    '@type': 'SearchAction',
+    target: `${SITIO.url}/buscar/?q={buscar_termino}`,
+    'query-input': 'required name=buscar_termino',
+  },
+};
+---
+
+<Base cabeceraCompleta={true} titulo={titulo} jsonLd={jsonLd || undefined}>
+  <Filtros />
+  <div class="cinta">
+    {page.data.map((entrada, i) => <Entrada entrada={entrada} orden={i} />)}
+  </div>
+  <Paginacion
+    actual={page.currentPage}
+    total={page.lastPage}
+    anterior={page.url.prev}
+    siguiente={page.url.next}
+  />
+  {page.currentPage === 1 && <Boletin tipo="novedades" />}
+</Base>
