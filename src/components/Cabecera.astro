@@ -26,7 +26,7 @@ const x = SOCIAL.find((s) => s.nombre === 'X')?.url;
         <a href="/">{SITIO.nombre}</a>
       </p>
       <p class="cabecera__rol">
-        <a href={SITIO.rolUrl}>{SITIO.rol}</a> · {SITIO.ciudad}
+        <a href={`${SITIO.rolUrl}/?utm_source=web_personal_fran`}>{SITIO.rol}</a> · {SITIO.ciudad}
         <span class="cabecera__social">
           <a href={linkedin} aria-label="LinkedIn" rel="noopener">
             <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -48,8 +48,6 @@ const x = SOCIAL.find((s) => s.nombre === 'X')?.url;
       </p>
     </div>
   </div>
-
-  {completa && <p class="cabecera__lema">{SITIO.lema}</p>}
 
   <nav class="cabecera__nav">
     {
