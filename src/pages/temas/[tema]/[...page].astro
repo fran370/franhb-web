@@ -1,0 +1,42 @@
+---
+import type { Page } from 'astro';
+import Base from '../../../layouts/Base.astro';
+import Filtros from '../../../components/Filtros.astro';
+import Entrada from '../../../components/Entrada.astro';
+import Boletin from '../../../components/Boletin.astro';
+import Paginacion from '../../../components/Paginacion.astro';
+import { todasLasEntradas, temasDe, type Entrada as TEntrada } from '../../../utils/entradas';
+import { TEMAS, LISTA_TEMAS, TAMANO_PAGINA, type Tema } from '../../../consts';
+
+export async function getStaticPaths({ paginate }: { paginate: Function }) {
+  const entradas = await todasLasEntradas();
+  return LISTA_TEMAS.flatMap((tema) =>
+    paginate(
+      entradas.filter((e) => temasDe(e).includes(tema)),
+      {
+        params: { tema: TEMAS[tema].ruta },
+        props: { clave: tema },
+        pageSize: TAMANO_PAGINA,
+      }
+    )
+  );
+}
+
+const { page, clave } = Astro.props as { page: Page<TEntrada>; clave: Tema };
+const info = TEMAS[clave];
+const titulo = page.currentPage > 1 ? `${info.etiqueta} · página ${page.currentPage}` : info.etiqueta;
+---
+
+<Base titulo={titulo} cabeceraCompleta={false}>
+  <Filtros />
+  <div class="cinta">
+    {page.data.map((entrada, i) => <Entrada entrada={entrada} orden={i} />)}
+  </div>
+  <Paginacion
+    actual={page.currentPage}
+    total={page.lastPage}
+    anterior={page.url.prev}
+    siguiente={page.url.next}
+  />
+  {page.currentPage === 1 && <Boletin tipo="novedades" />}
+</Base>

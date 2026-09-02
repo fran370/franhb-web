@@ -1,0 +1,25 @@
+{
+  "name": "franhb-web",
+  "type": "module",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "importar": "npm run importar:paginas && npm run importar:entradas && npm run importar:citas && npm run importar:maweekly",
+    "importar:paginas": "node --env-file=.env scripts/importar-paginas.mjs",
+    "importar:entradas": "node --env-file=.env scripts/importar-entradas.mjs",
+    "importar:citas": "node --env-file=.env scripts/importar-citas.mjs",
+    "importar:maweekly": "node scripts/importar-maweekly-rss.mjs",
+    "importar:forzar": "npm run importar:paginas && npm run importar:entradas -- --forzar && npm run importar:citas -- --forzar && npm run importar:maweekly -- --forzar"
+  },
+  "dependencies": {
+    "@astrojs/rss": "^4.0.11",
+    "@astrojs/sitemap": "^3.2.1",
+    "astro": "^5.2.0"
+  },
+  "devDependencies": {
+    "turndown": "^7.2.4"
+  }
+}

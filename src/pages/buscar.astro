@@ -1,0 +1,82 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base
+  titulo="Buscar"
+  descripcion="Buscar en ensayos, reseñas, posts, MAweekly, podcasts y citas."
+  sinIndexar={true}
+>
+  <div class="buscar">
+    <label class="marca" for="buscar-campo" style="position:absolute;left:-9999px">
+      Buscar
+    </label>
+    <input
+      id="buscar-campo"
+      class="buscar__campo"
+      type="search"
+      placeholder="Buscar…"
+      autocomplete="off"
+      autofocus
+    />
+    <p class="buscar__estado marca" id="buscar-estado" aria-live="polite"></p>
+    <ul class="buscar__resultados" id="buscar-resultados"></ul>
+  </div>
+</Base>
+
+<script>
+  const campo = document.getElementById('buscar-campo');
+  const estado = document.getElementById('buscar-estado');
+  const lista = document.getElementById('buscar-resultados');
+
+  const normaliza = (texto) =>
+    texto
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .toLowerCase();
+
+  let datos = [];
+
+  fetch('/buscar.json')
+    .then((r) => r.json())
+    .then((json) => {
+      datos = json;
+      estado.textContent = `${datos.length} entradas indexadas. Escribe para buscar.`;
+    });
+
+  function pinta(resultados) {
+    lista.innerHTML = '';
+    for (const r of resultados) {
+      const li = document.createElement('li');
+      li.className = 'buscar__resultado';
+      li.innerHTML = `
+        <a href="${r.ruta}">
+          <span class="marca">${r.tipo}</span>
+          <span class="buscar__titulo">${r.titulo}</span>
+        </a>
+        <p class="buscar__extracto">${r.extracto}</p>
+      `;
+      lista.appendChild(li);
+    }
+  }
+
+  let temporizador;
+  campo.addEventListener('input', () => {
+    clearTimeout(temporizador);
+    temporizador = setTimeout(() => {
+      const consulta = normaliza(campo.value.trim());
+      if (!consulta) {
+        lista.innerHTML = '';
+        estado.textContent = `${datos.length} entradas indexadas. Escribe para buscar.`;
+        return;
+      }
+      const resultados = datos.filter((r) =>
+        normaliza(`${r.titulo} ${r.extracto} ${r.tipo}`).includes(consulta)
+      );
+      estado.textContent = resultados.length
+        ? `${resultados.length} resultado${resultados.length === 1 ? '' : 's'}`
+        : 'Sin resultados';
+      pinta(resultados);
+    }, 120);
+  });
+</script>

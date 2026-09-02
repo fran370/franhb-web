@@ -1,0 +1,139 @@
+---
+import { render } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import Boletin from '../components/Boletin.astro';
+import {
+  todasLasEntradas,
+  fechaLarga,
+  iso,
+  tituloDe,
+  extractoDe,
+  rutaDe,
+  rutaFormatoDe,
+  slugDe,
+  dominio,
+} from '../utils/entradas';
+import { SITIO, TIPOS, TEMAS, SERIES } from '../consts';
+
+export async function getStaticPaths() {
+  const entradas = await todasLasEntradas();
+  return entradas.map((entrada) => ({
+    params: { slug: slugDe(entrada) },
+    props: { entrada },
+  }));
+}
+
+const { entrada } = Astro.props;
+const { data } = entrada;
+const tipo = TIPOS[data.tipo];
+const serie = data.serie ? SERIES[data.serie] : null;
+const { Content } = await render(entrada);
+const titulo = tituloDe(entrada);
+const descripcion = data.resumen || extractoDe(entrada);
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: titulo,
+  description: descripcion,
+  datePublished: iso(data.fecha),
+  url: new URL(rutaDe(entrada), SITIO.url).toString(),
+  author: { '@type': 'Person', name: SITIO.nombre, url: SITIO.url },
+  publisher: { '@type': 'Person', name: SITIO.nombre },
+};
+---
+
+<Base
+  titulo={titulo}
+  descripcion={descripcion}
+  tipoOg="article"
+  fechaPublicacion={data.fecha}
+  jsonLd={jsonLd}
+  imagen={data.portada}
+>
+  <article class="pagina">
+    <p class="marca">
+      <a href={rutaFormatoDe(entrada)} style="text-decoration:none">
+        {tipo.etiqueta}
+      </a>
+      {
+        serie && (
+          <>
+            {' · '}
+            <a href={`/temas/${TEMAS[serie.tema].ruta}/${serie.ruta}/`} style="text-decoration:none">
+              {serie.etiqueta}
+            </a>
+          </>
+        )
+      }
+      {' · '}
+      <time datetime={iso(data.fecha)}>{fechaLarga(data.fecha)}</time>
+    </p>
+
+    {data.titulo && <h1 class="pagina__titulo">{data.titulo}</h1>}
+
+    {
+      data.tipo === 'maweekly' && data.resumen && (
+        <p class="entrada__resumen">{data.resumen}</p>
+      )
+    }
+
+    {
+      data.portada && (
+        <p class="pagina__portada">
+          <img src={data.portada} alt="" />
+        </p>
+      )
+    }
+
+    {
+      (data.tipo === 'podcast' || data.tipo === 'video') && data.url && (
+        <p class="entrada__fuente">
+          <a href={data.url} rel="noopener">
+            {data.url} ↗
+          </a>
+        </p>
+      )
+    }
+
+    <div class="prosa">
+      <Content />
+    </div>
+
+    {
+      data.tipo === 'cita' && (data.autor || data.url) && (
+        <p class="cita__autoria">
+          {data.autor ? (
+            <>
+              — {data.autorUrl ? <a href={data.autorUrl}>{data.autor}</a> : data.autor}
+              {data.obra && (
+                <>
+                  {' en '}
+                  {data.obraUrl ? <a href={data.obraUrl}>{data.obra}</a> : data.obra}
+                </>
+              )}
+            </>
+          ) : (
+            <a href={data.url} rel="noopener">— {dominio(data.url)} ↗</a>
+          )}
+        </p>
+      )
+    }
+
+    {
+      data.sindicado && data.sindicado.length > 0 && (
+        <div class="entrada__pie">
+          {data.sindicado.map((s) => (
+            <a href={s.url} rel="syndication noopener">
+              También en {s.red}
+            </a>
+          ))}
+        </div>
+      )
+    }
+
+    {data.tipo === 'maweekly' ? <Boletin /> : <Boletin tipo="novedades" />}
+
+    <a class="volver" href="/">← Volver a inicio</a>
+  </article>
+</Base>

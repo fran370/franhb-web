@@ -1,0 +1,26 @@
+---
+import { render, getEntry } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import Filtros from '../components/Filtros.astro';
+import Boletin from '../components/Boletin.astro';
+
+// El cuerpo se edita en Notion y se trae con:
+// node --env-file=.env scripts/importar-paginas.mjs
+const pagina = await getEntry('paginas', 'ahora');
+const { Content } = await render(pagina);
+---
+
+<Base
+  titulo="Ahora"
+  descripcion="Qué estoy haciendo ahora: familia, empresa, docencia y proyectos."
+>
+  <Filtros />
+  <article class="pagina">
+    <h1 class="pagina__titulo">Ahora</h1>
+    <div class="prosa">
+      <Content />
+    </div>
+    <Boletin tipo="novedades" />
+    <a class="volver" href="/">← Volver a inicio</a>
+  </article>
+</Base>

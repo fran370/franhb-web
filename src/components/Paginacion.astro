@@ -1,0 +1,30 @@
+---
+interface Props {
+  actual: number;
+  total: number;
+  anterior?: string;
+  siguiente?: string;
+}
+
+const { actual, total, anterior, siguiente } = Astro.props;
+---
+
+{
+  total > 1 && (
+    <nav class="paginacion" aria-label="Paginación">
+      {anterior ? (
+        <a href={anterior}>← Más recientes</a>
+      ) : (
+        <span class="paginacion__inactivo">← Más recientes</span>
+      )}
+      <span class="paginacion__estado marca">
+        Página {actual} de {total}
+      </span>
+      {siguiente ? (
+        <a href={siguiente}>Más antiguas →</a>
+      ) : (
+        <span class="paginacion__inactivo">Más antiguas →</span>
+      )}
+    </nav>
+  )
+}

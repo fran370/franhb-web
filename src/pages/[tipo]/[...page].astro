@@ -1,0 +1,51 @@
+---
+import type { Page } from 'astro';
+import Base from '../../layouts/Base.astro';
+import Filtros from '../../components/Filtros.astro';
+import Entrada from '../../components/Entrada.astro';
+import Boletin from '../../components/Boletin.astro';
+import Paginacion from '../../components/Paginacion.astro';
+import { todasLasEntradas, type Entrada as TEntrada } from '../../utils/entradas';
+import { TIPOS, TAMANO_PAGINA, type Tipo } from '../../consts';
+
+export async function getStaticPaths({ paginate }: { paginate: Function }) {
+  const entradas = await todasLasEntradas();
+  // Solo los tipos que no tienen ya su propio listado bajo el eje de
+  // formato del menú (ver [formato]/[...page].astro): ensayo y reseña se
+  // sirven ahí agrupados como "Artículos", y MAweekly como parte de
+  // "Posts". Estas tres páginas siguen existiendo (accesibles
+  // directamente), solo no están en el menú principal.
+  const tiposSolos: Tipo[] = ['ensayo', 'resena', 'maweekly'];
+  return tiposSolos.flatMap((tipo) =>
+    paginate(
+      entradas.filter((e) => e.data.tipo === tipo),
+      {
+        params: { tipo: TIPOS[tipo].ruta },
+        props: { clave: tipo },
+        pageSize: TAMANO_PAGINA,
+      }
+    )
+  );
+}
+
+const { page, clave } = Astro.props as { page: Page<TEntrada>; clave: Tipo };
+const info = TIPOS[clave];
+const titulo = page.currentPage > 1 ? `${info.plural} · página ${page.currentPage}` : info.plural;
+---
+
+<Base titulo={titulo} cabeceraCompleta={false}>
+  <Filtros />
+  <div class="cinta">
+    {page.data.map((entrada, i) => <Entrada entrada={entrada} orden={i} />)}
+  </div>
+  <Paginacion
+    actual={page.currentPage}
+    total={page.lastPage}
+    anterior={page.url.prev}
+    siguiente={page.url.next}
+  />
+  {
+    page.currentPage === 1 &&
+      (clave === 'maweekly' ? <Boletin /> : <Boletin tipo="novedades" />)
+  }
+</Base>

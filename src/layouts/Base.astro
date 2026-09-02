@@ -1,0 +1,124 @@
+---
+import '../styles/global.css';
+import Cabecera from '../components/Cabecera.astro';
+import Pie from '../components/Pie.astro';
+import { SITIO } from '../consts';
+
+interface Props {
+  titulo?: string;
+  descripcion?: string;
+  /** La cabecera larga (foto + lema + nav) solo en portada y listados. */
+  cabeceraCompleta?: boolean;
+  /** 'article' en entradas individuales, 'website' en el resto. */
+  tipoOg?: 'website' | 'article';
+  fechaPublicacion?: Date;
+  /** No indexar (buscador, páginas de utilidad). */
+  sinIndexar?: boolean;
+  /** JSON-LD adicional (schema.org) para esta página, ya serializado. */
+  jsonLd?: Record<string, unknown>;
+  /** Imagen de portada de la entrada (ruta o URL); si no se indica, se usa og.png. */
+  imagen?: string;
+}
+
+const {
+  titulo,
+  descripcion = SITIO.lema,
+  cabeceraCompleta = false,
+  tipoOg = 'website',
+  fechaPublicacion,
+  sinIndexar = false,
+  jsonLd,
+  imagen,
+} = Astro.props;
+
+const tituloPagina = titulo ? `${titulo} · ${SITIO.nombre}` : SITIO.nombre;
+const canonica = new URL(Astro.url.pathname, Astro.site);
+const imagenOg = new URL(imagen || '/og.png', Astro.site);
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <script is:inline>
+      (function () {
+        var guardado = localStorage.getItem('tema');
+        var tema =
+          guardado ||
+          (window.matchMedia('(prefers-color-scheme: dark)').matches
+            ? 'oscuro'
+            : 'claro');
+        document.documentElement.setAttribute('data-tema', tema);
+      })();
+    </script>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{tituloPagina}</title>
+    <meta name="description" content={descripcion} />
+    <link rel="canonical" href={canonica} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link
+      rel="alternate"
+      type="application/rss+xml"
+      title={SITIO.nombre}
+      href="/rss.xml"
+    />
+    {sinIndexar && <meta name="robots" content="noindex" />}
+
+    <meta property="og:type" content={tipoOg} />
+    <meta property="og:site_name" content={SITIO.nombre} />
+    <meta property="og:locale" content="es_ES" />
+    <meta property="og:title" content={tituloPagina} />
+    <meta property="og:description" content={descripcion} />
+    <meta property="og:url" content={canonica} />
+    <meta property="og:image" content={imagenOg} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    {
+      tipoOg === 'article' && fechaPublicacion && (
+        <meta
+          property="article:published_time"
+          content={fechaPublicacion.toISOString()}
+        />
+      )
+    }
+    {tipoOg === 'article' && <meta property="article:author" content={SITIO.nombre} />}
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={tituloPagina} />
+    <meta name="twitter:description" content={descripcion} />
+    <meta name="twitter:image" content={imagenOg} />
+
+    {
+      jsonLd && (
+        <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+      )
+    }
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="envoltorio">
+      <Cabecera completa={cabeceraCompleta} />
+      <main>
+        <slot />
+      </main>
+      <Pie />
+    </div>
+
+    <script>
+      // Los enlaces a otros dominios se abren en pestaña nueva; los internos
+      // (nav, RSS, entradas) se quedan en la misma, como cabe esperar.
+      document.querySelectorAll('a[href^="http"]').forEach((enlace) => {
+        if (enlace instanceof HTMLAnchorElement && enlace.hostname !== window.location.hostname) {
+          enlace.target = '_blank';
+          enlace.rel = enlace.rel ? `${enlace.rel} noopener noreferrer` : 'noopener noreferrer';
+        }
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,42 @@
+---
+import type { Page } from 'astro';
+import Base from '../../layouts/Base.astro';
+import Filtros from '../../components/Filtros.astro';
+import Entrada from '../../components/Entrada.astro';
+import Boletin from '../../components/Boletin.astro';
+import Paginacion from '../../components/Paginacion.astro';
+import { todasLasEntradas, entradasDeFormato, type Entrada as TEntrada } from '../../utils/entradas';
+import { MENU_FORMATOS, TAMANO_PAGINA } from '../../consts';
+
+// Fila de formato del menú (Artículos/Posts/Podcasts/Vídeos/Citas — ver
+// MENU_FORMATOS en src/consts.ts). Usa el mismo filtro que la ruta
+// combinada con tema (temas/[tema]/[...page].astro y
+// [formato]/temas/[tema]/[...page].astro) para que ambas coincidan siempre.
+export async function getStaticPaths({ paginate }: { paginate: Function }) {
+  const entradas = await todasLasEntradas();
+  return MENU_FORMATOS.flatMap((formato) =>
+    paginate(entradasDeFormato(entradas, formato.clave), {
+      params: { formato: formato.ruta },
+      props: { formato },
+      pageSize: TAMANO_PAGINA,
+    })
+  );
+}
+
+const { page, formato } = Astro.props as { page: Page<TEntrada>; formato: (typeof MENU_FORMATOS)[number] };
+const titulo = page.currentPage > 1 ? `${formato.etiqueta} · página ${page.currentPage}` : formato.etiqueta;
+---
+
+<Base titulo={titulo} cabeceraCompleta={false}>
+  <Filtros />
+  <div class="cinta">
+    {page.data.map((entrada, i) => <Entrada entrada={entrada} orden={i} />)}
+  </div>
+  <Paginacion
+    actual={page.currentPage}
+    total={page.lastPage}
+    anterior={page.url.prev}
+    siguiente={page.url.next}
+  />
+  {page.currentPage === 1 && <Boletin tipo="novedades" />}
+</Base>

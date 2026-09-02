@@ -1,0 +1,55 @@
+---
+import type { Page } from 'astro';
+import Base from '../../../../layouts/Base.astro';
+import Filtros from '../../../../components/Filtros.astro';
+import Entrada from '../../../../components/Entrada.astro';
+import Boletin from '../../../../components/Boletin.astro';
+import Paginacion from '../../../../components/Paginacion.astro';
+import { todasLasEntradas, entradasDeFormato, temasDe, type Entrada as TEntrada } from '../../../../utils/entradas';
+import { MENU_FORMATOS, TEMAS, LISTA_TEMAS, TAMANO_PAGINA, type Tema } from '../../../../consts';
+
+// Combina los dos ejes del menú (formato + tema) a la vez — p.ej.
+// /videos/temas/lecturas/ — para que, partiendo de un filtro de formato, se
+// pueda acotar además por tema sin perder el primero (y viceversa desde
+// temas/[tema]/[...page].astro, que enlaza aquí cuando hay un formato activo).
+// "Citas" queda fuera: no tiene tema (a propósito, ver TEMAS en consts.ts),
+// así que esa combinación siempre estaría vacía.
+export async function getStaticPaths({ paginate }: { paginate: Function }) {
+  const entradas = await todasLasEntradas();
+  return MENU_FORMATOS.filter((formato) => formato.clave !== 'cita').flatMap((formato) =>
+    LISTA_TEMAS.flatMap((tema) =>
+      paginate(
+        entradasDeFormato(entradas, formato.clave).filter((e) => temasDe(e).includes(tema)),
+        {
+          params: { formato: formato.ruta, tema: TEMAS[tema].ruta },
+          props: { formato, tema },
+          pageSize: TAMANO_PAGINA,
+        }
+      )
+    )
+  );
+}
+
+const { page, formato, tema } = Astro.props as {
+  page: Page<TEntrada>;
+  formato: (typeof MENU_FORMATOS)[number];
+  tema: Tema;
+};
+const infoTema = TEMAS[tema];
+const base = `${formato.etiqueta} · ${infoTema.etiqueta}`;
+const titulo = page.currentPage > 1 ? `${base} · página ${page.currentPage}` : base;
+---
+
+<Base titulo={titulo} cabeceraCompleta={false}>
+  <Filtros />
+  <div class="cinta">
+    {page.data.map((entrada, i) => <Entrada entrada={entrada} orden={i} />)}
+  </div>
+  <Paginacion
+    actual={page.currentPage}
+    total={page.lastPage}
+    anterior={page.url.prev}
+    siguiente={page.url.next}
+  />
+  {page.currentPage === 1 && <Boletin tipo="novedades" />}
+</Base>
