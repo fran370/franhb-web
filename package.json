@@ -7,12 +7,12 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "importar": "npm run importar:paginas && npm run importar:entradas && npm run importar:citas && npm run importar:maweekly",
+    "importar": "npm run importar:paginas && npm run importar:entradas -- --forzar && npm run importar:citas -- --forzar && npm run importar:maweekly -- --forzar && npm run publicar",
     "importar:paginas": "node --env-file=.env scripts/importar-paginas.mjs",
     "importar:entradas": "node --env-file=.env scripts/importar-entradas.mjs",
     "importar:citas": "node --env-file=.env scripts/importar-citas.mjs",
     "importar:maweekly": "node scripts/importar-maweekly-rss.mjs",
-    "importar:forzar": "npm run importar:paginas && npm run importar:entradas -- --forzar && npm run importar:citas -- --forzar && npm run importar:maweekly -- --forzar"
+    "publicar": "node scripts/publicar.mjs"
   },
   "dependencies": {
     "@astrojs/rss": "^4.0.11",
