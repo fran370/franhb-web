@@ -122,29 +122,44 @@ LinkedIn.
 
 ---
 
-## Publicar (Cloudflare Pages)
+## Publicar (GitHub Pages)
 
-1. Sube el repositorio a GitHub.
-2. Cloudflare → **Workers & Pages** → **Create** → **Pages** → **Connect to Git**.
-3. Configuración de build:
-   - Framework preset: **Astro**
-   - Build command: `npm run build`
-   - Output directory: `dist`
-4. Despliega. Tendrás una URL `*.pages.dev` para validar.
+El repo ya trae el workflow `.github/workflows/deploy.yml`: en cada push a
+`main` construye con Astro y publica `dist/` en GitHub Pages con GitHub
+Actions. No hace falta build manual ni subir nada a mano.
+
+1. Sube el repositorio a GitHub (rama `main`).
+2. En el repo → **Settings** → **Pages** → en **Build and deployment**,
+   **Source** = **GitHub Actions**.
+3. Haz push a `main` (o lánzalo a mano desde **Actions** →
+   *Publicar en GitHub Pages* → **Run workflow**). El primer despliegue tarda
+   uno o dos minutos.
+4. Tendrás el sitio en `https://<usuario>.github.io/<repo>/` para validar
+   antes de mover el dominio propio.
+
+El archivo `public/CNAME` (con `franhb.com`) va incluido en el build, así que
+GitHub Pages ya sabe qué dominio propio debe servir en cuanto lo añadas en el
+paso siguiente.
 
 ### Mover franhb.com desde Notion
 
 Ahora mismo `franhb.com` es un dominio personalizado apuntando a
 `franhbj.notion.site`. Para cambiarlo sin ventana de caída:
 
-1. Comprueba primero que el sitio funciona en la URL `*.pages.dev`.
+1. Comprueba primero que el sitio funciona en la URL `*.github.io`.
 2. En Notion, quita el dominio personalizado de la página.
-3. En Cloudflare Pages → **Custom domains** → añade `franhb.com` y `www.franhb.com`.
-4. Si el dominio ya está en Cloudflare, el DNS se configura solo. Si está en otro
-   registrador, cambia los nameservers a Cloudflare o añade el CNAME que te indique.
+3. En el DNS del dominio (donde esté registrado `franhb.com`), añade:
+   - Un registro `CNAME` para `www` → `<usuario>.github.io`.
+   - Para el apex (`franhb.com` sin `www`), registros `A` a las IPs de
+     GitHub Pages (185.199.108.153, .109.153, .110.153, .111.153), o `ALIAS`/`ANAME`
+     a `<usuario>.github.io` si tu proveedor lo soporta.
+4. En **Settings** → **Pages** → **Custom domain**, escribe `franhb.com` y
+   guarda (esto reconfirma el `CNAME` en `public/`). Marca **Enforce HTTPS**
+   en cuanto el certificado esté disponible.
 
-La propagación suele tardar minutos. El contenido que tengas en Notion cópialo
-antes a markdown: se pierde el acceso al ponerlo privado.
+La propagación del DNS suele tardar desde minutos hasta un par de horas. El
+contenido que tengas en Notion cópialo antes a markdown: se pierde el acceso
+al ponerlo privado.
 
 ---
 
