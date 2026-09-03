@@ -12,7 +12,7 @@ Lo que hago ahora se puede resumir en mis roles: padre, aprendiz, emprendedor…
 
 - Cuarto año estudiando filosofía, con el foco en ciencia y tecnología.
 
-- Estoy escribiendo un ensayo sobre filosofía del progreso. Puedes consultar publicaciones previas en la sección “Ensayos” y “Reseñas”.
+- Estoy escribiendo un ensayo sobre filosofía del progreso. Puedes consultar publicaciones previas en la sección Artículos, desde ensayos y reseñas a comentarios breves.
 
 - Doy clases en el IEB. Soy responsable de la asignatura "Productos de Banca de Inversión", para los alumnos de primer año del grado en ADE + Máster Banca de Inversión. La asignatura introduce a los alumnos a M&A y Private Equity, Corporate y Direct Lending, así como Equity/Debt Capital Markets.
 
@@ -34,7 +34,7 @@ Lo que hago ahora se puede resumir en mis roles: padre, aprendiz, emprendedor…
 
     - Fernando Núñez (Ágora TPV): [escuchar ↗](https://open.spotify.com/episode/0SVj2a9oGTlm21IAm1Ce6t)
 
-- Trimestralmente organizo un desayuno con amigos y colabodadores para hablar de la actividad corporativa (M&A y Private Equity) en España. El próximo será en octubre para hablar del Q3 2026.
+- Trimestralmente organizo un desayuno con amigos y colaboradores para hablar de la actividad corporativa (M&A y Private Equity) en España. El próximo será en octubre para hablar del Q3 2026.
 
 - En Foro de Foros, presencialmente y en Madrid, entrevisto a profesionales del mundo de la inversión y de la empresa. En este caso en formato desayuno. Al menos una vez al trimestre.
 
@@ -56,7 +56,7 @@ Lo que hago ahora se puede resumir en mis roles: padre, aprendiz, emprendedor…
 
     - “Cien libros, una vida”, Antonio Martínez Asensio: https://www.youtube.com/watch?v=ZzWnJLOhk4k
 
-- Seguimos con libros. Trimestralmente me junto con amigos a cuenta de nuestro club de lectura. Vamos a por la séptima edición. En esta ocasión estamos con “La familia de Pascual Duarte”, el clásico de Camilo José Cela. La sesión será en octubre.
+- Seguimos con libros. Trimestralmente (¡qué pesado!) me junto con amigos a cuenta de nuestro club de lectura. Vamos a por la séptima edición. En esta ocasión estamos con “La familia de Pascual Duarte”, el clásico de Camilo José Cela. La sesión será en octubre.
 
     - ¿Por qué un club de lectura? Leer es muchas cosas, no tendría espacio para enumerarlas. El acto se origina desde la intimidad, su carácter individual es evidente. Ahora bien, ¿hemos leído realmente si no exponemos dicha intimidad? Si tal y como afirmaba Wittgenstein el lenguaje es el vehículo del pensamiento, ¿hemos leído si no comunicamos lo leído a otras personas? Si has hablado con otras personas sobre lo que un libro ha significado para ti y, por supuesto, para ellas, sabes que la afirmación del filosófo austriaco es cierta. No es lo mismo leer un libro que leerlo y conversar al respecto en el espacio adecuado. Así es como, por arte de magia, el significado emerge, se transforma, se expande…Lo leído alcanza un nuevo estatus. El club, esa comunidad, dará a luz un nuevo libro, uno que no sabías que habías leído.
 

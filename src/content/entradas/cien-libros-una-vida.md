@@ -1,6 +1,6 @@
 ---
 tipo: video
-titulo: "Antonio Martínez Asensio"
+titulo: "Antonio Martínez Asensio, “Cien libros una vida”"
 fecha: 2025-10-01
 tema:
   - lecturas

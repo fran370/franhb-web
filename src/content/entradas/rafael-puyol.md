@@ -1,12 +1,11 @@
 ---
 tipo: video
-titulo: "Rafael Puyol"
+titulo: "Rafael Puyol, “¿Un mundo sin personas?”"
 fecha: 2024-04-23
 tema:
   - lecturas
 serie: solapa-libro
 url: "https://youtu.be/GFvxItYyMQ0?si=0J6vbg1BZt-D-eyd"
-portada: /imagenes/rafael-puyol.png
 sindicado:
   - red: "Youtube"
     url: "https://youtu.be/GFvxItYyMQ0?si=0J6vbg1BZt-D-eyd"
