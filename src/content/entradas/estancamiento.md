@@ -20,7 +20,7 @@ Publicado previamente en Foro de Foros. Este ensayo se elaboró para el posgrado
 Resumen
 Analizamos si el avance tecnológico se verá mermado de forma relevante como consecuencia de la unión de varios factores o si, por contra, la tecnología trasciende los límites humanos, avanzando con independencia de nuestras acciones como individuos. Concretamente, estudiamos si la erosión de la democracia y el ascenso de las autocracias podría tener impacto en el progreso tecnológico de las próximas décadas, debido a la limitación de libertad y partiendo de la base de que la creatividad emana de esta. En línea con este análisis, abordamos la cuestión sobre si el exceso de influencia, capital y, por ende, poder, de grandes compañías tecnológicas, supone el fin de las grandes transformaciones, por un lado por el papel de estos grupos en la limitación de la libertad y, por otro, por su instinto de supervivencia, que les llevaría a usar sus virtualmente infinitas reservas de tesorería en la adquisición de tecnologías y nuevos modelos de negocio antes de que estas desemboquen en el concepto acuñado por Joseph Schumpeter y que conocemos como “destrucción creativa”.
 
-Introducción
+### Introducción
 
 No son pocos los futuros distópicos que imaginan una sociedad totalmente sometida y controlada. En ellas, salirse de la línea, de la forma que sea, es garantía de problema.
 
@@ -31,7 +31,8 @@ Philip K. Dick. por su parte, dibuja en su cuento “Stability” una sociedad e
 El catalizador definitivo para, tras muchas vueltas, decantarnos por esta temática, fue volver a encontrarnos con una reflexión a este respecto. Esta vez en “Contra apocalípticos”, también del profesor Zamora Bonilla. Su idea sobre un futuro fin del progreso científico, tecnológico y social alimentó nuestro interés sobre qué entendemos por progreso, tecnología o creatividad.
 
 Ahora bien, ¿qué nos motiva a pensar en un escenario de menor progreso tecnológico en las próximas décadas? ¿Qué señales nos llevan a creer que la tendencia podría cambiar? ¿Por qué relacionamos esta posibilidad con sociedades totalitarias?
-Hacia el estancamiento
+
+### Hacia el estancamiento
 
 Como veremos más adelante, el ser humano es una especie extremadamente dinámica. Busca conocer y ha evolucionado para aprender de sus errores y progresar gracias al esfuerzo y conocimiento colectivo. No obstante, y aunque llevemos miles de años progresando, para hacerlo de forma sostenida y con cambios reales para la vida de las personas, deben darse las condiciones para ello. En la opinión de los autores estudiados, el requisito principal es la libertad del individuo.
 
@@ -43,7 +44,7 @@ Consecuencias negativas de la sociedad de la información. Fake news y vigilanci
 
 Big tech y el fin de la “destrucción creativa”. Las infinitas reservas de caja de las grandes tecnológicas abren la posibilidad a adquirir cualquier empresa que amenace sus modelos de negocio. La inexistencia de competencia solo motiva a estos monopolios a perpetuar sus cuestionables prácticas.
 
-Progreso y tecnología
+### Progreso y tecnología
 
 En este punto se hace necesario profundizar en el concepto de “progreso”. Desde luego, no es tarea sencilla. Según el DRAE, “progreso” se define como “acción de ir hacia delante” o “avance, adelanto, perfeccionamiento”.
 
@@ -54,7 +55,8 @@ Jeff Bezos, en su carta a inversores del año 2007, defendió una idea similar. 
 Hoy es obligatorio preguntarse en qué nos hemos convertido tras el asentamiento de las redes sociales en nuestras vidas y en qué nos convertiremos tras el aterrizaje de la inteligencia artificial y su impacto en el Internet que conocemos. Podemos responder con otra pregunta que anima a la reflexión: ¿ha llegado el fin del Internet útil? (Horning, 2023).
 
 Esto nos lleva a pensar en un futuro no deseable, en el que la brecha de la desigualdad se sigue ampliando como consecuencia de un exceso de información de poca calidad. Los curadores de contenido no serán accesibles a todo el mundo. De ser este el futuro que nos espera, creemos que la sociedad debe trabajar por garantizar un acceso a información de calidad, al igual que se ha hecho con otros derechos fundamentales, como la educación. Aunque la idea de un organismo público que vele por esto nos genera sentimientos encontrados, creemos que será un ente tan necesario como otras instituciones y supervisores normalizados en la sociedad actual. Esta reflexión podría extenderse sin duda al actual debate en torno a las redes sociales y su carácter de espacio público, aun siendo propiedad privada.
-Democracia y libertad
+
+### Democracia y libertad
 
 Al hablar de progreso es muy habitual escuchar críticas a la insaciabilidad del ser humano. Esa característica que nos lleva a avanzar a toda costa. ¿Es esto algo malo? ¿Es tan siquiera una opción? ¿O es incluso necesario? Algo que se nos olvida en ocasiones, es que estas reflexiones provienen de Occidente, una parte del mundo que ha alcanzado grandes cotas de bienestar. Podemos permitirnos la reflexión sobre lo negativo de estos avances y las consecuencias de segundo orden que nuestro progreso ha traído. Qué duda cabe que esta mirada crítica es necesaria. No obstante, no podemos olvidar que la mayor parte de la población mundial no vive “aquí” y que su razón de ser se centra en vivir mejor. Dicho de otro modo, su realidad les obliga a progresar.
 
@@ -65,7 +67,8 @@ Existen muchas referencias a la necesidad de contar con una democracia como requ
 ¿Y el progreso en las sociedades no democráticas? Podríamos defender que, si tal y como afirmaba Aristóteles en su Metafísica, los seres humanos por naturaleza deseamos conocer, entonces lograremos progresar incluso en un contexto autocrático. El deseo de conocer daría lugar a rebeldía, dando paso a la democracia.
 
 Esto nos evoca a lo que David Deutsch defiende en “The Beginning of Infinity”. En su libro, Deutsch menciona el concepto “rebellion” al hablar de cómo la Ilustración y el progreso que trajo consigo consistieron en aprender a rechazar el conocimiento establecido. Hasta entonces el conocimiento estaba plagado de dogmas y falsedades. En todo caso, y como continua el propio Deutsch, no es suficiente con rebelarse constantemente, si no que necesitamos cierta “estabilidad”, es decir, necesitamos que este escenario de libertad (y crítica) sea sostenido en el tiempo (Deutsch, 2012).
-Rebelarse ante el futuro
+
+### Rebelarse ante el futuro
 
 Una vez mapeado el presente solo nos queda continuar reflexionando para trabajar en futuros alternativos. El estancamiento del progreso, como consecuencia de un mundo menos libre, es sin duda un futuro plausible y un escenario no deseable.
 
