@@ -1,0 +1,54 @@
+name: Importar desde Notion/Substack
+
+on:
+  schedule:
+    - cron: '0 */3 * * *' # cada 3 horas
+  workflow_dispatch: {} # también se puede lanzar a mano desde Actions (o desde el móvil)
+
+permissions:
+  contents: write
+  actions: write
+
+concurrency:
+  group: importar
+  cancel-in-progress: false
+
+jobs:
+  importar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - run: npm ci
+
+      - name: Configurar git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Commit actual (antes de importar)
+        id: antes
+        run: echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+
+      - name: Importar y publicar
+        env:
+          NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
+          NOTION_DATABASE_ID: ${{ secrets.NOTION_DATABASE_ID }}
+          NOTION_DATABASE_ID_ENTRADAS: ${{ secrets.NOTION_DATABASE_ID_ENTRADAS }}
+          NOTION_DATABASE_ID_PAGINAS: ${{ secrets.NOTION_DATABASE_ID_PAGINAS }}
+        run: npm run importar
+
+      - name: Disparar despliegue si hubo cambios
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          despues=$(git rev-parse HEAD)
+          if [ "$despues" != "${{ steps.antes.outputs.sha }}" ]; then
+            gh workflow run "Publicar en GitHub Pages" --ref main
+          else
+            echo "Sin cambios, no hace falta desplegar."
+          fi
