@@ -55,7 +55,7 @@ const PAGINAS = {
 const flags = process.argv.slice(2);
 const inspeccionar = flags.includes('--inspeccionar');
 
-async function notion(path, options = {}) {
+async function notion(path, options = {}, reintentos = 5) {
   const res = await fetch(`https://api.notion.com/v1${path}`, {
     ...options,
     headers: {
@@ -65,6 +65,11 @@ async function notion(path, options = {}) {
       ...options.headers,
     },
   });
+  if (res.status === 429 && reintentos > 0) {
+    const espera = Number(res.headers.get('retry-after')) || 1;
+    await new Promise((r) => setTimeout(r, espera * 1000));
+    return notion(path, options, reintentos - 1);
+  }
   if (!res.ok) {
     const texto = await res.text();
     throw new Error(`Notion API ${res.status}: ${texto}`);
