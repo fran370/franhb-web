@@ -5,7 +5,6 @@ export const SITIO = {
   rolUrl: 'https://www.albiacapital.com',
   lema: 'Empresa, M&A y Private Equity, filosofía, tecnología',
   ciudad: 'Madrid',
-  foto: '/fran.svg',
 };
 
 export const SOCIAL = [
