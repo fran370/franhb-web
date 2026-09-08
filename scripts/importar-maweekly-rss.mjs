@@ -34,7 +34,16 @@ function campo(bloque, tag) {
   return bloque.match(re)?.[1] ?? null;
 }
 
-const respuesta = await fetch(FEED_URL);
+// Sin cabeceras, Substack devuelve 403 a peticiones que no parecen venir de
+// un navegador (pasa sobre todo desde IPs de datacenter, como los runners de
+// GitHub Actions; en local, con otra IP, a veces cuela sin este añadido).
+const respuesta = await fetch(FEED_URL, {
+  headers: {
+    'User-Agent':
+      'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
+    Accept: 'application/rss+xml, application/xml;q=0.9, */*;q=0.8',
+  },
+});
 if (!respuesta.ok) {
   console.error(`No se pudo leer el feed (${respuesta.status}): ${FEED_URL}`);
   process.exit(1);

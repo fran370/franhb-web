@@ -43,8 +43,21 @@ jobs:
           NOTION_DATABASE_ID_PAGINAS=${{ secrets.NOTION_DATABASE_ID_PAGINAS }}
           EOF
 
-      - name: Importar y publicar
-        run: npm run importar
+      - name: Importar páginas
+        run: npm run importar:paginas
+
+      - name: Importar entradas
+        run: npm run importar:entradas -- --forzar
+
+      - name: Importar citas
+        run: npm run importar:citas -- --forzar
+
+      - name: Importar MAweekly (no bloquea el resto si falla)
+        continue-on-error: true
+        run: npm run importar:maweekly -- --forzar
+
+      - name: Publicar
+        run: npm run publicar
 
       - name: Disparar despliegue si hubo cambios
         env:
