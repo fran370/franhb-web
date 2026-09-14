@@ -2,7 +2,7 @@
 titulo: "Sobre mí"
 ---
 
-Si quieres saber en qué temas ando metido ahora, te recomiendo ver la página Ahora.
+Si quieres saber en qué temas ando metido ahora, te recomiendo ver la página [**Ahora**](https://franhb.com/ahora/).
 
 Soy socio de [**Albia IMAP**](https://albiacapital.com/?utm_source=web_personal_fran) y cofundador de [**Empresax**](https://www.empresax.com/?utm_source=web_personal_fran), firmas de M&A basadas en España. Más de 10 años dedicado al crecimiento y continuidad de pequeñas y medianas empresas.
 
@@ -12,7 +12,7 @@ Recientemente recibimos el premio Compromiso IME de la Escuela de Negocios de la
 
 📺 Entrevista ([Youtube](https://www.youtube.com/watch?v=04fYhW0nTBI), [Spotify](https://open.spotify.com/episode/5TKMSW97cNnQMEsKtGSc2t))  en el podcast de Nova Talent.
 
-### Mis problemas favoritos
+# Mis problemas favoritos
 
 ---
 
@@ -38,7 +38,7 @@ Tiene mucho sentido. Nuestro cerebro funciona de forma caótica. Aprendemos a di
 
 - ¿Cómo podemos reforzar la alfabetización digital y el sentido crítico para combatir la desinformación así como para dirigirnos a un Internet más descentralizado?
 
-### Iniciativas que apoyo
+# Iniciativas que apoyo
 
 ---
 
