@@ -13,3 +13,5 @@ sindicado:
 Ayer estuvimos con los empresarios de Ávila para hablar de la importancia de la continuidad empresarial. Lo hicimos de la mano de nuestro amigo y cliente, Jorge Molinero, CEO de Atisa y miembro de la segunda generación.
 
 Todo lo hicimos en el marco de la cátedra de Empresa Familiar de la Universidad de Salamanca, que patrocinamos con orgullo.
+
+Vídeo resumen de la jornada → https://www.cyltv.es/videoSH/ba810346-6f35-4f29-92d0-bd9d7fd63254/Mirando-al-futuro-acompanando-a-las-empresas
