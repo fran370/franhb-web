@@ -17,7 +17,7 @@
 // (YYYY)" / "YYYY recap" (p.ej. un número especial con otro título), se lista
 // al final como omitido para crearlo a mano.
 
-import { writeFileSync, existsSync } from 'node:fs';
+import { writeFileSync, appendFileSync, existsSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, resolve, join } from 'node:path';
 import TurndownService from 'turndown';
@@ -34,25 +34,93 @@ function campo(bloque, tag) {
   return bloque.match(re)?.[1] ?? null;
 }
 
+// Escribe en el Job Summary de la ejecución de Actions (pestaña "Summary",
+// visible sin iniciar sesión), para poder diagnosticar fallos del feed sin
+// tener que entrar a los logs completos del job.
+function resumenCI(texto) {
+  const ruta = process.env.GITHUB_STEP_SUMMARY;
+  if (ruta) appendFileSync(ruta, texto + '\n');
+}
+
 // Sin cabeceras, Substack devuelve 403 a peticiones que no parecen venir de
 // un navegador (pasa sobre todo desde IPs de datacenter, como los runners de
-// GitHub Actions; en local, con otra IP, a veces cuela sin este añadido).
-const respuesta = await fetch(FEED_URL, {
-  headers: {
-    'User-Agent':
-      'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
-    Accept: 'application/rss+xml, application/xml;q=0.9, */*;q=0.8',
-  },
-});
-if (!respuesta.ok) {
-  console.error(`No se pudo leer el feed (${respuesta.status}): ${FEED_URL}`);
-  process.exit(1);
+// GitHub Actions; en local, con otra IP, a veces cuela sin este añadido). El
+// añadido de estas cabeceras (commit c9101e3) no ha bastado para que el feed
+// se lea de forma fiable desde Actions, así que además reintenta unas
+// cuantas veces y, si al final falla, vuelca el motivo (status, cabeceras y
+// el arranque del cuerpo de la respuesta) al Job Summary para poder verlo
+// sin necesidad de iniciar sesión en GitHub.
+async function leerFeed(intentos = 3) {
+  for (let intento = 1; intento <= intentos; intento++) {
+    let respuesta;
+    let errorRed;
+    try {
+      respuesta = await fetch(FEED_URL, {
+        headers: {
+          'User-Agent':
+            'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
+          Accept: 'application/rss+xml, application/xml;q=0.9, */*;q=0.8',
+        },
+      });
+    } catch (error) {
+      errorRed = error;
+    }
+
+    if (respuesta?.ok) return respuesta;
+
+    const esUltimoIntento = intento === intentos;
+    if (errorRed) {
+      console.error(`Intento ${intento}/${intentos}: error de red al pedir el feed: ${errorRed.message}`);
+      if (esUltimoIntento) {
+        resumenCI(
+          `### MAweekly: error de red tras ${intentos} intentos\n\n\`${errorRed.message}\`\n`
+        );
+        process.exit(1);
+      }
+    } else {
+      console.error(`Intento ${intento}/${intentos}: el feed devolvió ${respuesta.status}`);
+      if (esUltimoIntento) {
+        const cabeceras = [...respuesta.headers.entries()].map(([k, v]) => `${k}: ${v}`).join('\n');
+        const cuerpo = await respuesta.text();
+        resumenCI(
+          [
+            '### MAweekly: no se pudo leer el feed',
+            '',
+            `Status \`${respuesta.status} ${respuesta.statusText}\` tras ${intentos} intentos contra ${FEED_URL}.`,
+            '',
+            '<details><summary>Cabeceras de la respuesta</summary>',
+            '',
+            '```',
+            cabeceras,
+            '```',
+            '',
+            '</details>',
+            '',
+            '<details><summary>Primeros 1000 caracteres del cuerpo</summary>',
+            '',
+            '```html',
+            cuerpo.slice(0, 1000),
+            '```',
+            '',
+            '</details>',
+            '',
+          ].join('\n')
+        );
+        process.exit(1);
+      }
+    }
+
+    await new Promise((r) => setTimeout(r, 2000 * intento));
+  }
 }
+
+const respuesta = await leerFeed();
 const xml = await respuesta.text();
 const items = xml.split('<item>').slice(1).map((bloque) => bloque.split('</item>')[0]);
 
 if (items.length === 0) {
   console.error('El feed no devolvió ningún item. ¿Sigue siendo la URL correcta?');
+  resumenCI('### MAweekly: el feed respondió OK pero sin items\n\n¿Sigue siendo la URL correcta?\n');
   process.exit(1);
 }
 
