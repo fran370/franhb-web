@@ -22,4 +22,4 @@ Después de leer el libro leí y escuché entrevistas al autor. Sus reflexiones 
 
 “La ficción es un modo de conocimiento. Es un mecanismo para construir sentido en un universo en el que no hay sentido”.
 
-Me recordó a los grandes filósofos españoles del siglo XX, que en buena medida carecían de un sistema filosófico, en sentido alemán. En cambio, en sus novelas encontramos ideas y tesis que valen tanto o más que cualquier sistema, como ocurría con Don Miguel de Unamuno. Y si no me crees lee San Manuel Bueno, mártir.
+Me recordó a los grandes filósofos españoles del siglo XX, que en buena medida carecían de un sistema filosófico, en sentido alemán. En cambio, en sus novelas encontramos ideas y tesis que valen tanto o más que cualquier sistema, como ocurría con Don Miguel de Unamuno. Y, si no me crees, lee *San Manuel Bueno, mártir*.
