@@ -16,6 +16,14 @@ Esta introducción busca poner en contexto, al hilo del tema de nuestro tiempo, 
 
 Esto, de Ricardo Baeza-Yates, es un gran ejemplo de cómo es fundamental el uso correcto del lenguaje ante las implicaciones que tiene no hacerlo. También, filosofía agéntica, tal y como anticipaba al principio:
 
+1. *Fue OpenAI el que atacó Hugging Face, eran sus agentes,* *los agentes no tienen intenciones humanas**. Por supuesto OpenAI prefiere lavarse las manos culpando a los agentes, pues fue una acción ilegal.*
+
+1. *Los agentes no hacen trampa,* *no tienen moral**. Sólo predicen soluciones alternativas que los humanos que les dieron las órdenes no habían considerado o pensaban que no eran viables (como acceder a Internet).*
+
+1. *Los agentes* *no piensan, no tienen cerebro**. Sólo predicen sus acciones y la predicción fue no comunicar a nadie pues no sabían a quién contactar. Otro error humano.*
+
+Fuente: https://www.linkedin.com/feed/update/urn:li:activity:7507402543208235009?commentUrn=urn%3Ali%3Acomment%3A(activity%3A7507402543208235009%2C7507450508568117248)&dashCommentUrn=urn%3Ali%3Afsd_comment%3A(7507450508568117248%2Curn%3Ali%3Aactivity%3A7507402543208235009)
+
 Desconfía de las palabras, decía Julio Cortázar. También, en su clase de literatura de Berkley, decía lo siguiente:
 
 “Si uno se descuida el lenguaje es una de las jaulas más terribles que nos esta siempre esperando”.
