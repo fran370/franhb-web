@@ -9,7 +9,7 @@ sindicado:
   - red: "IMAP"
     url: "https://www.imap.com/es-en/insights/2026/global-leaders-convene-in-dublin-for-imap-spring-2026-mergers-and-acquisitions-conference~cv"
   - red: "LinkedIn"
-    url: "https://www.linkedin.com/posts/hidalgobarquero_hace-unos-d%C3%ADas-tuvo-lugar-la-reuni%C3%B3n-de-rigor-activity-7455145782837657600-aiGC?utm_source=share&utm_medium=member_desktop&rcm=ACoAAAkoTh8BULVMDGNZM_lLCi5QUj4BPeP3-oo"
+    url: "https://www.linkedin.com/posts/hidalgobarquero_hace-unos-d%C3%ADas-tuvo-lugar-la-reuni%C3%B3n-de-rigor-activity-7455145782837657600-aiGC"
 ---
 
 Hace unos días tuvo lugar la reunión de rigor de socios IMAP, esta vez en Dublín.

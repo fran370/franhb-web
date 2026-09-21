@@ -7,7 +7,7 @@ tema:
 portada: /imagenes/desayuno-ma-pe-q1.png
 sindicado:
   - red: "LinkedIn"
-    url: "https://www.linkedin.com/posts/hidalgobarquero_privateequity-dealmakers-albia-activity-7453016036888698880-veXW?utm_source=share&utm_medium=member_desktop&rcm=ACoAAAkoTh8BULVMDGNZM_lLCi5QUj4BPeP3-oo"
+    url: "https://www.linkedin.com/posts/hidalgobarquero_privateequity-dealmakers-albia-activity-7453016036888698880-veXW"
 ---
 
 Un placer recibir un trimestre más a amigos y colaboradores para compartir nuestra interpretación de la actividad M&A y Private Equity reciente.

@@ -7,7 +7,7 @@ tema:
 portada: /imagenes/izertis.png
 sindicado:
   - red: "LinkedIn"
-    url: "https://www.linkedin.com/posts/hidalgobarquero_mna-bmegrowth-mercadocontinuo-activity-7350766167822680064-eVEe?utm_source=share&utm_medium=member_desktop&rcm=ACoAAAkoTh8BULVMDGNZM_lLCi5QUj4BPeP3-oo"
+    url: "https://www.linkedin.com/posts/hidalgobarquero_mna-bmegrowth-mercadocontinuo-activity-7350766167822680064-eVEe"
 ---
 
 Hace dos años, allá por abril de 2023, pasó por segunda vez por el podcast [**Pablo Martín Rodríguez**](https://www.linkedin.com/in/pablomartinrodriguez/), presidente y CEO de [**IZERTIS**](https://www.linkedin.com/company/izertis/). La primera vez fue en 2019, horas antes de comenzar a cotizar en el entonces MaB, hoy BME Growth.
@@ -28,4 +28,4 @@ Si os apasiona, como a nosotros, el futuro, la tecnología y el M&A (😀), no d
 
 - ¿Cómo ha evolucionado la estrategia M&A tras más de 25 años y cerca de 40 adquisiciones? ¿Cómo encaja en el nuevo plan estratégico?
 
-Recientemente también contamos con la visión de [**Julio López Armesto**](https://www.linkedin.com/in/juliolopezarmesto/) (Chief Investor Relations Officer & ESG Director) en uno de nuestros informes sectoriales de [**ALBIA | IMAP, Fusiones y Adquisiciones M&A**](https://www.linkedin.com/company/albia-imap/). Aquí podéis ver la grabación de la presentación que hicimos del informe del Q1 2025. En breve publicaremos el [update del Q2](https://www.linkedin.com/posts/hidalgobarquero_fusionesyadquisiciones-mna-privateequity-activity-7333733929604059136-EWHi/?utm_source=share&utm_medium=member_desktop&rcm=ACoAAAkoTh8BULVMDGNZM_lLCi5QUj4BPeP3-oo).
+Recientemente también contamos con la visión de [**Julio López Armesto**](https://www.linkedin.com/in/juliolopezarmesto/) (Chief Investor Relations Officer & ESG Director) en uno de nuestros informes sectoriales de [**ALBIA | IMAP, Fusiones y Adquisiciones M&A**](https://www.linkedin.com/company/albia-imap/). Aquí podéis ver la grabación de la presentación que hicimos del informe del Q1 2025. En breve publicaremos el [update del Q2](https://www.linkedin.com/posts/hidalgobarquero_fusionesyadquisiciones-mna-privateequity-activity-7333733929604059136-EWHi/).

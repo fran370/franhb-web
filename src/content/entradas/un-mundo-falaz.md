@@ -9,7 +9,7 @@ url: "https://www.youtube.com/watch?v=SrN9HMsS8dg&t=3020s"
 portada: /imagenes/un-mundo-falaz.png
 sindicado:
   - red: "LinkedIn"
-    url: "https://www.linkedin.com/posts/hidalgobarquero_hace-unos-d%C3%ADas-tuve-la-oportunidad-de-participar-activity-7470372854908502018-3Tgq/?originalSubdomain=es"
+    url: "https://www.linkedin.com/posts/hidalgobarquero_hace-unos-d%C3%ADas-tuve-la-oportunidad-de-participar-activity-7470372854908502018-3Tgq/"
   - red: "Youtube"
     url: "https://www.youtube.com/watch?v=SrN9HMsS8dg&t=3020s"
 ---

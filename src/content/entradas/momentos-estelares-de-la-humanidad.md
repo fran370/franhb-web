@@ -8,7 +8,7 @@ serie: club-lectura
 portada: /imagenes/momentos-estelares-de-la-humanidad.png
 sindicado:
   - red: "LinkedIn"
-    url: "https://www.linkedin.com/posts/hidalgobarquero_lectoconversadores-stefanzweig-clubdelectura-activity-7309558240671928320-Hix1?utm_source=share&utm_medium=member_desktop&rcm=ACoAAAkoTh8BULVMDGNZM_lLCi5QUj4BPeP3-oo"
+    url: "https://www.linkedin.com/posts/hidalgobarquero_lectoconversadores-stefanzweig-clubdelectura-activity-7309558240671928320-Hix1"
 ---
 
 Dicen que si piensas sin escribir, solo crees que estás pensando. Es mi caso, se cumple. Necesito escribir para pensar en condiciones. También dicen que para escribir bien hay que leer...

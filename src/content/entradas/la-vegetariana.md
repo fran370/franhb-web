@@ -8,7 +8,7 @@ serie: club-lectura
 portada: /imagenes/la-vegetariana.png
 sindicado:
   - red: "LinkedIn"
-    url: "https://www.linkedin.com/posts/hidalgobarquero_anoche-nos-juntamos-un-trimestre-m%C3%A1s-parte-activity-7341729824580730880-c68K?utm_source=share&utm_medium=member_desktop&rcm=ACoAAAkoTh8BULVMDGNZM_lLCi5QUj4BPeP3-oo"
+    url: "https://www.linkedin.com/posts/hidalgobarquero_anoche-nos-juntamos-un-trimestre-m%C3%A1s-parte-activity-7341729824580730880-c68K"
 ---
 
 Anoche nos juntamos un trimestre más parte de los miembros de [**Asociación Club de Lectura Alexandreia**](https://www.linkedin.com/company/clubesdelecturaalexandreia/) . En esta edición: "La vegetariana", de Han Kang.
