@@ -11,7 +11,7 @@ sindicado:
   - red: "Youtube"
     url: "https://www.youtube.com/watch?v=nodt6PbwMeY"
   - red: "LinkedIn"
-    url: "https://www.linkedin.com/posts/hidalgobarquero_lasolapadeunlibro-lsdul-activity-7346055068225343488-VqhG/?originalSubdomain=es"
+    url: "https://www.linkedin.com/posts/hidalgobarquero_lasolapadeunlibro-lsdul-activity-7346055068225343488-VqhG/"
 ---
 
 En la última edición de hashtag#LaSolapaDeUnLibro de FORO DE FOROS contamos con Luis Carvajal. Si no le conocéis por su trayectoria profesional, seguro que le conocéis por Talent Pills, su podcast.

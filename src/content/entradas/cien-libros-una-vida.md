@@ -9,7 +9,7 @@ url: "https://www.youtube.com/watch?v=ZzWnJLOhk4k"
 portada: /imagenes/antonio-martinez-asensio.png
 sindicado:
   - red: "LinkedIn"
-    url: "https://www.linkedin.com/posts/hidalgobarquero_leer-no-te-hace-necesariamente-mejor-persona-activity-7384845634970763264-hDiW/?originalSubdomain=es"
+    url: "https://www.linkedin.com/posts/hidalgobarquero_leer-no-te-hace-necesariamente-mejor-persona-activity-7384845634970763264-hDiW/"
 ---
 
 Leer no te hace necesariamente mejor persona (ni profesional), aunque es probable que sí. Hace unos días, en [**FORO DE FOROS**](https://www.linkedin.com/company/forodeforos/) contamos con [**Antonio Martínez Asensio**](https://www.linkedin.com/in/antonio-mart%C3%ADnez-asensio-69433611/) a cuenta de su "Cien libros, una vida". Lo pasamos en grande entrevistando al que muchos seguimos en el programa de la SER "Un libro, una hora" y en la sección "La Biblioteca" de Hoy por Hoy.

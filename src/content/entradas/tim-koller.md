@@ -7,7 +7,7 @@ tema:
 portada: /imagenes/tim-koller.png
 sindicado:
   - red: "LinkedIn"
-    url: "https://www.linkedin.com/posts/hidalgobarquero_qu%C3%A9-dif%C3%ADcil-es-transmitir-tanto-en-tan-poco-activity-7422171576927772673-kQ6b?utm_source=share&utm_medium=member_desktop&rcm=ACoAAAkoTh8BULVMDGNZM_lLCi5QUj4BPeP3-oo"
+    url: "https://www.linkedin.com/posts/hidalgobarquero_qu%C3%A9-dif%C3%ADcil-es-transmitir-tanto-en-tan-poco-activity-7422171576927772673-kQ6b"
 ---
 
 Qué difícil es transmitir tanto en tan poco. Este señor es coautor de una de los libros de referencia sobre valoración y referente desde mi época de estudiante.

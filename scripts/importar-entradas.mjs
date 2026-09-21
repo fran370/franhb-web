@@ -147,19 +147,70 @@ function envolver(texto, marcador) {
   return `${inicio}${marcador}${nucleo}${marcador}${fin}`;
 }
 
+// Parámetros de seguimiento que LinkedIn añade al copiar el enlace de una
+// publicación o de un comentario (p.ej. "?commentUrn=urn%3Ali%3A…"). No
+// cambian el destino y hacen la URL ilegible; el resto de parámetros se respeta.
+const PARAMS_SEGUIMIENTO_LINKEDIN = [
+  'commentUrn',
+  'dashCommentUrn',
+  'replyUrn',
+  'dashReplyUrn',
+  'rcm',
+  'trk',
+  'trackingId',
+  'lipi',
+  'originalSubdomain',
+  'utm_source',
+  'utm_medium',
+  'utm_campaign',
+  'utm_content',
+  'utm_term',
+];
+
+/** Quita los parámetros de seguimiento de una URL de LinkedIn. Cualquier otra
+ * URL (o una que no se pueda interpretar) se devuelve tal cual. */
+function limpiarUrl(url) {
+  let host;
+  try {
+    host = new URL(url).hostname;
+  } catch {
+    return url;
+  }
+  if (!/(^|\.)linkedin\.com$/i.test(host)) return url;
+  // Se edita el texto de la URL (no se reconstruye con URL) para no alterar
+  // la codificación de la ruta ni de los parámetros que se conservan.
+  const [, ruta, consulta, fragmento = ''] = url.match(/^([^?#]*)(?:\?([^#]*))?(#.*)?$/);
+  if (!consulta) return url;
+  const conservados = consulta
+    .split('&')
+    .filter((p) => !PARAMS_SEGUIMIENTO_LINKEDIN.includes(p.split('=')[0]));
+  if (conservados.length === consulta.split('&').length) return url;
+  return ruta + (conservados.length ? `?${conservados.join('&')}` : '') + fragmento;
+}
+
+/** Limpia las URLs de LinkedIn que aparezcan sueltas dentro de un texto,
+ * sin arrastrar la puntuación final ("…/post/." → "…/post/."). */
+function limpiarUrlsEnTexto(texto) {
+  return texto.replace(/https?:\/\/(?:[\w-]+\.)*linkedin\.com\/\S*/gi, (coincidencia) => {
+    const [, url, puntuacion] = coincidencia.match(/^(.*?)([.,;:!?]*)$/);
+    return limpiarUrl(url) + puntuacion;
+  });
+}
+
 /** Convierte un array de rich_text de Notion a texto plano en Markdown. */
 function textoEnriquecido(richText) {
   if (!richText) return '';
   return richText
     .map((t) => {
-      let texto = t.plain_text;
+      let texto = limpiarUrlsEnTexto(t.plain_text);
+      const href = t.href ? limpiarUrl(t.href) : null;
       if (t.annotations.code) texto = envolver(texto, '`');
       if (t.annotations.bold) texto = envolver(texto, '**');
       if (t.annotations.italic) texto = envolver(texto, '*');
       // Si el enlace apunta a la misma URL que el texto (autodetectado por
       // Notion al pegar una URL suelta), se deja como texto plano en vez de
       // envolverlo en [url](url).
-      if (t.href && t.href !== t.plain_text) texto = `[${texto}](${t.href})`;
+      if (href && href !== limpiarUrlsEnTexto(t.plain_text)) texto = `[${texto}](${href})`;
       return texto;
     })
     .join('');
@@ -189,7 +240,7 @@ function valorDe(pagina, nombrePropiedad) {
       if (!valor) return null;
       // Notion permite guardar URLs sin protocolo (p.ej. "linkedin.com");
       // el esquema del sitio exige URLs completas.
-      return /^https?:\/\//i.test(valor) ? valor : `https://${valor}`;
+      return limpiarUrl(/^https?:\/\//i.test(valor) ? valor : `https://${valor}`);
     }
     case 'date':
       return prop.date?.start || null;
@@ -302,7 +353,7 @@ async function bloqueAMarkdown(bloque, slug, contadorImagenes) {
       return `![](${ruta})`;
     }
     case 'bookmark':
-      return bloque.bookmark.url || '';
+      return limpiarUrl(bloque.bookmark.url || '');
     default:
       console.log(`  (bloque de tipo "${bloque.type}" no soportado, se omite)`);
       return '';

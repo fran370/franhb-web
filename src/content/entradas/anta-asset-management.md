@@ -9,7 +9,7 @@ url: "https://www.youtube.com/watch?v=_ihYUT6C22o"
 portada: /imagenes/anta-asset-management.png
 sindicado:
   - red: "LinkedIn"
-    url: "https://www.linkedin.com/posts/hidalgobarquero_ya-est%C3%A1-disponible-la-conversaci%C3%B3n-que-mantuvimos-activity-7459866202425737216-gWzQ/?originalSubdomain=es"
+    url: "https://www.linkedin.com/posts/hidalgobarquero_ya-est%C3%A1-disponible-la-conversaci%C3%B3n-que-mantuvimos-activity-7459866202425737216-gWzQ/"
   - red: "Youtube"
     url: "https://www.youtube.com/watch?v=_ihYUT6C22o"
 ---

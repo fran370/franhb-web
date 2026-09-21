@@ -5,7 +5,7 @@ fecha: 2025-10-06
 portada: /imagenes/nova-weekend-2025.png
 sindicado:
   - red: "LinkedIn"
-    url: "https://www.linkedin.com/posts/hidalgobarquero_este-fin-de-semana-tuve-el-lujo-de-acompa%C3%B1ar-activity-7381606848505782274-of7j?utm_source=share&utm_medium=member_desktop&rcm=ACoAAAkoTh8BULVMDGNZM_lLCi5QUj4BPeP3-oo"
+    url: "https://www.linkedin.com/posts/hidalgobarquero_este-fin-de-semana-tuve-el-lujo-de-acompa%C3%B1ar-activity-7381606848505782274-of7j"
 ---
 
 Este fin de semana tuve el lujo de acompañar a varios amigos en un nuevo paso para alcanzar su visión.
