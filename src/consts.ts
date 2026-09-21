@@ -75,6 +75,10 @@ export const LISTA_SERIES = Object.keys(SERIES) as Serie[];
 /** Cuántas entradas se muestran por página en portada y listados por tipo. */
 export const TAMANO_PAGINA = 10;
 
+/** A partir de cuántas palabras un post/podcast/vídeo se recorta en la cinta
+ * y pide "Seguir leyendo" para abrir la página completa. */
+export const PALABRAS_MAX_EN_CINTA = 150;
+
 export const NAVEGACION = [
   { nombre: 'Sobre mí', url: '/sobre-mi/' },
   { nombre: 'Ahora', url: '/ahora/' },
