@@ -492,6 +492,20 @@ code {
   margin-bottom: 0;
 }
 
+/* Posts largos: se recortan con un desvanecido y "Seguir leyendo" abre la
+   página completa. El umbral de palabras está en consts.ts. */
+.entrada__cuerpo--recortado {
+  max-height: 16rem;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(to bottom, #000 55%, transparent);
+  mask-image: linear-gradient(to bottom, #000 55%, transparent);
+}
+
+.entrada__pie a.entrada__seguir {
+  color: var(--tinta);
+  border-bottom-color: var(--tinta);
+}
+
 .entrada__pie {
   margin-top: 1rem;
   display: flex;

@@ -1,6 +1,6 @@
 ---
 import { render } from 'astro:content';
-import { TIPOS, TEMAS, SERIES } from '../consts';
+import { TIPOS, TEMAS, SERIES, PALABRAS_MAX_EN_CINTA } from '../consts';
 import {
   rutaDe,
   rutaFormatoDe,
@@ -26,6 +26,11 @@ const serie = data.serie ? SERIES[data.serie] : null;
 // Posts, podcasts y citas se leen enteros en el flujo. Artículos y MAweekly
 // se abren aparte: son largos y merecen su propia página.
 const { Content } = tipo.completo ? await render(entrada) : { Content: null };
+
+// Las citas son breves y se leen siempre enteras; el resto de tipos "completos"
+// se recorta en la cinta si superan el umbral de palabras.
+const palabras = (entrada.body ?? '').split(/\s+/).filter(Boolean).length;
+const recortada = tipo.completo && data.tipo !== 'cita' && palabras > PALABRAS_MAX_EN_CINTA;
 ---
 
 <article class={`entrada entrada--${data.tipo}`} style={`--orden:${orden}`}>
@@ -104,7 +109,7 @@ const { Content } = tipo.completo ? await render(entrada) : { Content: null };
 
   {
     (data.tipo === 'post' || data.tipo === 'podcast' || data.tipo === 'video') && (
-      <div class="entrada__cuerpo prosa">
+      <div class:list={['entrada__cuerpo', 'prosa', { 'entrada__cuerpo--recortado': recortada }]}>
         <Content />
       </div>
     )
@@ -112,7 +117,14 @@ const { Content } = tipo.completo ? await render(entrada) : { Content: null };
 
   <div class="entrada__pie">
     {
-      (data.tipo === 'post' || data.tipo === 'podcast' || data.tipo === 'cita' || data.tipo === 'video') && (
+      recortada && (
+        <a class="entrada__seguir" href={ruta}>
+          Seguir leyendo →
+        </a>
+      )
+    }
+    {
+      !recortada && (data.tipo === 'post' || data.tipo === 'podcast' || data.tipo === 'cita' || data.tipo === 'video') && (
         <a href={ruta}>Enlace permanente</a>
       )
     }
