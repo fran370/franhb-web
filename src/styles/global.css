@@ -635,6 +635,9 @@ code {
   color: var(--verdin);
   text-decoration-color: var(--verdin);
   text-decoration-thickness: 1px;
+  /* URLs sueltas muy largas (p.ej. enlaces de LinkedIn con parámetros)
+     no deben desbordar la columna. */
+  overflow-wrap: anywhere;
 }
 
 .prosa a:hover {
