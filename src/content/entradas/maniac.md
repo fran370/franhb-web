@@ -4,6 +4,7 @@ titulo: "Maniac"
 fecha: 2026-09-15
 tema:
   - lecturas
+  - filosofia
 serie: club-lectura
 portada: /imagenes/maniac.jpg
 ---
