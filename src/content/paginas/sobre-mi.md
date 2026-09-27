@@ -53,3 +53,19 @@ Tiene mucho sentido. Nuestro cerebro funciona de forma caótica. Aprendemos a di
 - Nova Talent (únete a la comunidad, [aquí](https://www.novatalent.com/nominations/referral?userName=Francisco&token=gdgxnd0b72773f6ba417db2f7a2e5d1d267f2)). Mi participación en el podcast: [Youtube](https://www.youtube.com/watch?v=04fYhW0nTBI), [Spotify](https://open.spotify.com/episode/5TKMSW97cNnQMEsKtGSc2t).
 
 - Asociación Club de Lectura Alexandreia ([saber más](https://alexandreia.org/))
+
+# Sobre esta web
+
+---
+
+Esta web está inspirada en el concepto “POSSE”:
+
+- Publish (on your) Own Site, Syndicate Elsewhere. POSSE stands for Publish (on your) Own Site, Syndicate Elsewhere. It is a content strategy where you create and publish material on a personal website or domain that you control first, and then share copies, excerpts, or links to external social media platforms and third-party networks.
+
+**Dicho de otro modo: aduéñate de tu espacio y de tu contenido, luego impúlsalo donde consideres.** 
+
+Es mi forma particular de luchar y de apoyar la idea que vengo defendiendo, que Internet se ha convertido en un espacio contrario a los ideales de apertura que florecieron en su origen. La evolución de la sociedad, como consecuencia de la evolución de un Internet cada vez más centralizado no me parece deseable.
+
+Si te interesa profundizar en esta reflexión, puedes hacerlo aquí: [*Por un nuevo Internet*](https://franhb.com/desinformacion/).
+
+No dependas de las grandes plataformas. ¿Por qué? Porque la arbitrariedad con la que las gobiernan es un gran problema. ¿Por qué? Por la influencia que tienen en la sociedad.
