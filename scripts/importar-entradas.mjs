@@ -48,6 +48,7 @@
 import { writeFileSync, readFileSync, existsSync, mkdirSync, readdirSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, resolve, join, basename } from 'node:path';
+import { limpiarArchivo } from './limpiar-metadatos.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const DESTINO = resolve(__dirname, '../src/content/entradas');
@@ -318,6 +319,8 @@ async function descargarPortada(url, slug) {
   if (!existsSync(IMAGENES)) mkdirSync(IMAGENES, { recursive: true });
   const nombre = `${slug}${ext}`;
   writeFileSync(join(IMAGENES, nombre), buffer);
+  // Sin EXIF: la foto original puede llevar la ubicación GPS, la fecha y el móvil.
+  limpiarArchivo(join(IMAGENES, nombre));
   return `/imagenes/${nombre}`;
 }
 

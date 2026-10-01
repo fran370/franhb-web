@@ -141,6 +141,22 @@ El archivo `public/CNAME` (con `franhb.com`) va incluido en el build, así que
 GitHub Pages ya sabe qué dominio propio debe servir en cuanto lo añadas en el
 paso siguiente.
 
+### Imágenes sin metadatos
+
+Las fotos del móvil guardan dentro la ubicación GPS exacta, la fecha y el
+modelo del teléfono. `scripts/limpiar-metadatos.mjs` los borra de todas las
+imágenes de `public/` (JPEG, PNG y WebP) sin recomprimirlas: solo conserva el
+perfil de color y la orientación. Se ejecuta solo al importar portadas desde
+Notion, antes de cada commit automático y antes de cada despliegue.
+
+Si añades una imagen a mano, límpiala antes de hacer commit (lo que se sube
+queda en el historial de git aunque luego se borre):
+
+```bash
+npm run limpiar:imagenes                 # limpia public/
+npm run limpiar:imagenes -- --comprobar  # solo avisa
+```
+
 ### Mover franhb.com desde Notion
 
 Ahora mismo `franhb.com` es un dominio personalizado apuntando a

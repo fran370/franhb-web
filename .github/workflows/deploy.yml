@@ -23,6 +23,9 @@ jobs:
         with:
           node-version: 20
       - run: npm ci
+      # Por si alguna imagen llegó al repo con metadatos (ubicación GPS,
+      # fecha, móvil...): se borran antes de publicar la web.
+      - run: npm run limpiar:imagenes
       - run: npm run build
       - uses: actions/upload-pages-artifact@v3
         with:

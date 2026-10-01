@@ -12,7 +12,8 @@
     "importar:entradas": "node --env-file=.env scripts/importar-entradas.mjs",
     "importar:citas": "node --env-file=.env scripts/importar-citas.mjs",
     "importar:maweekly": "node scripts/importar-maweekly-rss.mjs",
-    "publicar": "node scripts/publicar.mjs"
+    "publicar": "node scripts/publicar.mjs",
+    "limpiar:imagenes": "node scripts/limpiar-metadatos.mjs"
   },
   "dependencies": {
     "@astrojs/rss": "^4.0.11",
