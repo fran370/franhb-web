@@ -6,10 +6,9 @@ tema:
   - lecturas
   - filosofia
 serie: club-lectura
-portada: /imagenes/maniac.jpg
 ---
 
-*Maniac* es uno de los libros que leímos en el club de lectura el año pasado. Rápidamente se convirtió en uno de mis libros favoritos. 
+*Maniac* (Benjamín Labatut) es uno de los libros que leímos en el club de lectura el año pasado. Rápidamente se convirtió en uno de mis libros favoritos. 
 
 Es inevitable pensar en él últimamente y especialmente estos días en los que asistimos a un nuevo debate teledirigido, el del potencial peligro existencial que representa para nosotros la IA.
 
