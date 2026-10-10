@@ -7,36 +7,27 @@ on:
 jobs:
   probar:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        fuente: [feed2json, Feedly]
     steps:
-      - name: Sondear rutas al feed
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm ci --silent
+      - run: node scripts/importar-maweekly-rss.mjs --forzar
+        env:
+          MAWEEKLY_FUENTE: ${{ matrix.fuente }}
+      - name: Diferencias con lo importado del feed directo
         run: |
-          F=https://maweekly.substack.com/feed
-          E=$(python3 -c "import urllib.parse;print(urllib.parse.quote('$F',safe=''))")
-          probar() { # nombre url [user-agent]
-            ua="${3:-}"
-            if [ -n "$ua" ]; then
-              r=$(curl -sS -m 40 -A "$ua" -o cuerpo -w "%{http_code} %{size_download}" "$2" 2>&1 || true)
-            else
-              r=$(curl -sS -m 40 -o cuerpo -w "%{http_code} %{size_download}" "$2" 2>&1 || true)
-            fi
-            w=$(grep -o "Week 40 (2026)" cuerpo 2>/dev/null | head -1)
-            echo "$1 | $r | ${w:-sin week40}"
-          }
-          probar "directo curl" $F
-          probar "directo Feedly UA" $F "Feedly/1.0 (+http://www.feedly.com/fetcher.html; 1 subscribers)"
-          probar "directo Inoreader UA" $F "Mozilla/5.0 (compatible; inoreader.com; 1 subscribers)"
-          probar "directo FeedFetcher-Google" $F "FeedFetcher-Google; (+http://www.google.com/feedfetcher.html)"
-          probar "directo NetNewsWire" $F "NetNewsWire (RSS Reader; https://netnewswire.com/)"
-          probar "api archive" "https://maweekly.substack.com/api/v1/archive?sort=new&limit=3"
-          probar "api posts" "https://maweekly.substack.com/api/v1/posts?limit=3"
-          probar "substack.com api" "https://substack.com/api/v1/publication/search?query=maweekly&limit=1"
-          probar "rss2json" "https://api.rss2json.com/v1/api.json?rss_url=$E"
-          probar "allorigins" "https://api.allorigins.win/raw?url=$E"
-          probar "codetabs" "https://api.codetabs.com/v1/proxy?quest=$F"
-          probar "corsproxy.io" "https://corsproxy.io/?url=$E"
-          probar "jina" "https://r.jina.ai/$F"
-          probar "feed2json" "https://feed2json.org/convert?url=$E"
-          probar "rssbridge" "https://rss-bridge.org/bridge01/?action=display&bridge=FilterBridge&url=$E&format=Atom"
-          probar "fetchrss" "https://politepol.com/fd/$E"
-          probar "google translate proxy" "https://maweekly-substack-com.translate.goog/feed?_x_tr_sl=auto&_x_tr_tl=es"
-          probar "feedly cloud" "https://cloud.feedly.com/v3/streams/contents?streamId=feed%2F$E&count=3"
+          git status --porcelain
+          git diff --stat
+          git diff -- src/content/entradas/39-2026.md | head -60
+          echo ----- 40-2026.md
+          head -c 1500 src/content/entradas/40-2026.md || true
+      - uses: actions/upload-artifact@v4
+        with:
+          name: maweekly-${{ matrix.fuente }}
+          path: src/content/entradas/40-2026.md

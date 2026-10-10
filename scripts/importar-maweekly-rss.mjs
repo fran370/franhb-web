@@ -67,7 +67,8 @@ function itemsDeXml(xml) {
 // directamente desde Actions falla casi siempre. Por eso se prueban varias
 // fuentes en orden: el feed directo (funciona desde una IP doméstica) y, si
 // falla, servicios públicos que leen el feed por nosotros desde sus propias
-// IPs. Gana la primera que devuelva items.
+// IPs (probados desde Actions en octubre de 2026; rss2json, allorigins,
+// codetabs y corsproxy.io no servían). Gana la primera que devuelva items.
 const FUENTES = [
   {
     nombre: 'feed directo',
@@ -75,30 +76,39 @@ const FUENTES = [
     leer: async (r) => itemsDeXml(await r.text()),
   },
   {
-    nombre: 'rss2json',
-    url: `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(FEED_URL)}`,
-    leer: async (r) => {
-      const datos = await r.json();
-      if (datos.status !== 'ok') throw new Error(`rss2json: ${datos.message || datos.status}`);
-      return datos.items.map((i) => ({
+    // Convierte el RSS a JSON Feed: content_html es content:encoded y
+    // summary es description (el subtítulo).
+    nombre: 'feed2json',
+    url: `https://feed2json.org/convert?url=${encodeURIComponent(FEED_URL)}`,
+    leer: async (r) =>
+      (await r.json()).items.map((i) => ({
         titulo: i.title,
-        html: i.content,
-        // rss2json da "YYYY-MM-DD HH:mm:ss" en UTC, sin zona.
-        pubDate: i.pubDate ? `${i.pubDate.replace(' ', 'T')}Z` : null,
-        subtitulo: i.description,
-      }));
-    },
+        html: i.content_html,
+        pubDate: i.date_published,
+        subtitulo: i.summary,
+      })),
   },
   {
-    nombre: 'allorigins',
-    url: `https://api.allorigins.win/raw?url=${encodeURIComponent(FEED_URL)}`,
-    leer: async (r) => itemsDeXml(await r.text()),
+    // API pública de Feedly: devuelve los posts que su lector ya ha leído
+    // del feed. content.content es content:encoded; summary, description.
+    nombre: 'Feedly',
+    url: `https://cloud.feedly.com/v3/streams/contents?streamId=${encodeURIComponent(`feed/${FEED_URL}`)}&count=20`,
+    leer: async (r) =>
+      (await r.json()).items.map((i) => ({
+        titulo: i.title,
+        html: i.content?.content ?? null,
+        pubDate: i.published ? new Date(i.published).toISOString() : null,
+        subtitulo: i.content ? i.summary?.content : null,
+      })),
   },
 ];
 
+// MAWEEKLY_FUENTE=feed2json (por ejemplo) fuerza una sola fuente, para probarla.
+const soloFuente = process.env.MAWEEKLY_FUENTE;
+
 async function leerItems() {
   const fallos = [];
-  for (const fuente of FUENTES) {
+  for (const fuente of FUENTES.filter((f) => !soloFuente || f.nombre === soloFuente)) {
     for (let intento = 1; intento <= 2; intento++) {
       try {
         const respuesta = await fetch(fuente.url, {
