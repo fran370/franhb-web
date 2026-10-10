@@ -42,87 +42,101 @@ function resumenCI(texto) {
   if (ruta) appendFileSync(ruta, texto + '\n');
 }
 
-// Sin cabeceras, Substack devuelve 403 a peticiones que no parecen venir de
-// un navegador (pasa sobre todo desde IPs de datacenter, como los runners de
-// GitHub Actions; en local, con otra IP, a veces cuela sin este añadido). El
-// añadido de estas cabeceras (commit c9101e3) no ha bastado para que el feed
-// se lea de forma fiable desde Actions, así que además reintenta unas
-// cuantas veces y, si al final falla, vuelca el motivo (status, cabeceras y
-// el arranque del cuerpo de la respuesta) al Job Summary para poder verlo
-// sin necesidad de iniciar sesión en GitHub.
-async function leerFeed(intentos = 3) {
-  for (let intento = 1; intento <= intentos; intento++) {
-    let respuesta;
-    let errorRed;
-    try {
-      respuesta = await fetch(FEED_URL, {
-        headers: {
-          'User-Agent':
-            'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
-          Accept: 'application/rss+xml, application/xml;q=0.9, */*;q=0.8',
-        },
-      });
-    } catch (error) {
-      errorRed = error;
-    }
+const CABECERAS = {
+  'User-Agent':
+    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
+  Accept: 'application/rss+xml, application/xml;q=0.9, */*;q=0.8',
+};
 
-    if (respuesta?.ok) return respuesta;
-
-    const esUltimoIntento = intento === intentos;
-    if (errorRed) {
-      console.error(`Intento ${intento}/${intentos}: error de red al pedir el feed: ${errorRed.message}`);
-      if (esUltimoIntento) {
-        resumenCI(
-          `### MAweekly: error de red tras ${intentos} intentos\n\n\`${errorRed.message}\`\n`
-        );
-        process.exit(1);
-      }
-    } else {
-      console.error(`Intento ${intento}/${intentos}: el feed devolvió ${respuesta.status}`);
-      if (esUltimoIntento) {
-        const cabeceras = [...respuesta.headers.entries()].map(([k, v]) => `${k}: ${v}`).join('\n');
-        const cuerpo = await respuesta.text();
-        resumenCI(
-          [
-            '### MAweekly: no se pudo leer el feed',
-            '',
-            `Status \`${respuesta.status} ${respuesta.statusText}\` tras ${intentos} intentos contra ${FEED_URL}.`,
-            '',
-            '<details><summary>Cabeceras de la respuesta</summary>',
-            '',
-            '```',
-            cabeceras,
-            '```',
-            '',
-            '</details>',
-            '',
-            '<details><summary>Primeros 1000 caracteres del cuerpo</summary>',
-            '',
-            '```html',
-            cuerpo.slice(0, 1000),
-            '```',
-            '',
-            '</details>',
-            '',
-          ].join('\n')
-        );
-        process.exit(1);
-      }
-    }
-
-    await new Promise((r) => setTimeout(r, 2000 * intento));
-  }
+/** Trocea un RSS en items normalizados: { titulo, html, pubDate, subtitulo }. */
+function itemsDeXml(xml) {
+  return xml
+    .split('<item>')
+    .slice(1)
+    .map((bloque) => bloque.split('</item>')[0])
+    .map((item) => ({
+      titulo: campo(item, 'title'),
+      html: campo(item, 'content:encoded'),
+      pubDate: campo(item, 'pubDate'),
+      subtitulo: campo(item, 'description'),
+    }));
 }
 
-const respuesta = await leerFeed();
-const xml = await respuesta.text();
-const items = xml.split('<item>').slice(1).map((bloque) => bloque.split('</item>')[0]);
+// Cloudflare (delante de Substack) devuelve un desafío anti-bot a las IPs de
+// datacenter, como las de los runners de GitHub Actions, así que pedir el feed
+// directamente desde Actions falla casi siempre. Por eso se prueban varias
+// fuentes en orden: el feed directo (funciona desde una IP doméstica) y, si
+// falla, servicios públicos que leen el feed por nosotros desde sus propias
+// IPs (probados desde Actions en octubre de 2026; rss2json, allorigins,
+// codetabs y corsproxy.io no servían). Gana la primera que devuelva items.
+const FUENTES = [
+  {
+    nombre: 'feed directo',
+    url: FEED_URL,
+    leer: async (r) => itemsDeXml(await r.text()),
+  },
+  {
+    // Convierte el RSS a JSON Feed: content_html es content:encoded y
+    // summary es description (el subtítulo).
+    nombre: 'feed2json',
+    url: `https://feed2json.org/convert?url=${encodeURIComponent(FEED_URL)}`,
+    leer: async (r) =>
+      (await r.json()).items.map((i) => ({
+        titulo: i.title,
+        html: i.content_html,
+        pubDate: i.date_published,
+        subtitulo: i.summary,
+      })),
+  },
+  {
+    // API pública de Feedly: devuelve los posts que su lector ya ha leído
+    // del feed. content.content es content:encoded; summary, description.
+    // Feedly deja el título con entidades y hace absolutos los enlaces a las
+    // notas al pie; se deshace para que salga igual que del feed directo.
+    nombre: 'Feedly',
+    url: `https://cloud.feedly.com/v3/streams/contents?streamId=${encodeURIComponent(`feed/${FEED_URL}`)}&count=20`,
+    leer: async (r) =>
+      (await r.json()).items.map((i) => ({
+        titulo: i.title?.replace(/&amp;/g, '&'),
+        html: i.content?.content?.replace(/href="https:\/\/maweekly\.substack\.com\/p\/[^"#]*#/g, 'href="#') ?? null,
+        pubDate: i.published ? new Date(i.published).toISOString() : null,
+        subtitulo: i.content ? i.summary?.content : null,
+      })),
+  },
+];
 
-if (items.length === 0) {
-  console.error('El feed no devolvió ningún item. ¿Sigue siendo la URL correcta?');
-  resumenCI('### MAweekly: el feed respondió OK pero sin items\n\n¿Sigue siendo la URL correcta?\n');
+// MAWEEKLY_FUENTE=feed2json (por ejemplo) fuerza una sola fuente, para probarla.
+const soloFuente = process.env.MAWEEKLY_FUENTE;
+
+async function leerItems() {
+  const fallos = [];
+  for (const fuente of FUENTES.filter((f) => !soloFuente || f.nombre === soloFuente)) {
+    for (let intento = 1; intento <= 2; intento++) {
+      try {
+        const respuesta = await fetch(fuente.url, {
+          headers: CABECERAS,
+          signal: AbortSignal.timeout(30_000),
+        });
+        if (!respuesta.ok) throw new Error(`status ${respuesta.status}`);
+        const items = (await fuente.leer(respuesta)).filter((i) => i.titulo);
+        if (items.length === 0) throw new Error('respuesta sin items');
+        console.log(`Feed leído vía ${fuente.nombre} (${items.length} items)`);
+        return items;
+      } catch (error) {
+        const motivo = `${fuente.nombre}, intento ${intento}: ${error.message}`;
+        console.error(motivo);
+        fallos.push(motivo);
+        await new Promise((r) => setTimeout(r, 2000 * intento));
+      }
+    }
+  }
+  resumenCI(
+    ['### MAweekly: no se pudo leer el feed por ninguna fuente', '', ...fallos.map((f) => `- ${f}`), ''].join('\n')
+  );
   process.exit(1);
 }
+
+const items = await leerItems();
 
 const turndown = new TurndownService({ headingStyle: 'atx', bulletListMarker: '-' });
 
@@ -136,7 +150,7 @@ let yaExistian = 0;
 const omitidos = [];
 
 for (const item of items) {
-  const titulo = (campo(item, 'title') || '').trim();
+  const titulo = (item.titulo || '').trim();
   if (!titulo) continue;
 
   const coincidenciaSemana = titulo.match(RE_SEMANA);
@@ -164,7 +178,7 @@ for (const item of items) {
     continue;
   }
 
-  const html = campo(item, 'content:encoded');
+  const html = item.html;
   if (!html) {
     omitidos.push(`${titulo} (sin content:encoded en el feed)`);
     continue;
@@ -176,14 +190,14 @@ for (const item of items) {
 
   const cuerpo = turndown.turndown(html).trim();
 
-  const pubDate = campo(item, 'pubDate');
+  const pubDate = item.pubDate;
   const fecha = pubDate ? new Date(pubDate).toISOString().slice(0, 10) : null;
   if (!fecha) {
     omitidos.push(`${titulo} (sin pubDate en el feed)`);
     continue;
   }
 
-  const subtitulo = (campo(item, 'description') || '').trim();
+  const subtitulo = (item.subtitulo || '').trim();
 
   const lineas = ['---', 'tipo: maweekly'];
   if (semana) lineas.push(`semana: ${semana}`);
