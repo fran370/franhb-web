@@ -1,0 +1,21 @@
+name: Probar importación MAweekly (temporal)
+
+on:
+  push:
+    branches: [claude/epic-bohr-088yd3]
+
+jobs:
+  probar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm ci
+      - run: npm run importar:maweekly
+      - run: git status --porcelain && git diff --stat
+      - uses: actions/upload-artifact@v4
+        with:
+          name: maweekly
+          path: src/content/entradas/*-2026.md

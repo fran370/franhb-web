@@ -52,9 +52,13 @@ jobs:
       - name: Importar citas
         run: npm run importar:citas -- --forzar
 
-      # MAweekly ya no se importa aquí: Cloudflare (Substack) devuelve un
-      # desafío anti-bot a los runners de GitHub. Lo hace una tarea programada
-      # en el PC: scripts/sync-maweekly-local.ps1.
+      # Cloudflare (Substack) suele devolver un desafío anti-bot a los runners
+      # de GitHub; el script prueba entonces servicios intermedios que leen el
+      # feed por nosotros. Sin --forzar: solo entran los números nuevos. Si
+      # falla, que no bloquee el resto (el motivo queda en el Summary).
+      - name: Importar MAweekly
+        continue-on-error: true
+        run: npm run importar:maweekly
 
       - name: Publicar
         run: npm run publicar
