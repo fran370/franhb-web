@@ -91,12 +91,14 @@ const FUENTES = [
   {
     // API pública de Feedly: devuelve los posts que su lector ya ha leído
     // del feed. content.content es content:encoded; summary, description.
+    // Feedly deja el título con entidades y hace absolutos los enlaces a las
+    // notas al pie; se deshace para que salga igual que del feed directo.
     nombre: 'Feedly',
     url: `https://cloud.feedly.com/v3/streams/contents?streamId=${encodeURIComponent(`feed/${FEED_URL}`)}&count=20`,
     leer: async (r) =>
       (await r.json()).items.map((i) => ({
-        titulo: i.title,
-        html: i.content?.content ?? null,
+        titulo: i.title?.replace(/&amp;/g, '&'),
+        html: i.content?.content?.replace(/href="https:\/\/maweekly\.substack\.com\/p\/[^"#]*#/g, 'href="#') ?? null,
         pubDate: i.published ? new Date(i.published).toISOString() : null,
         subtitulo: i.content ? i.summary?.content : null,
       })),
