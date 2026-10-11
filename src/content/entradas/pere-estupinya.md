@@ -5,12 +5,13 @@ fecha: 2026-06-22
 tema:
   - lecturas
 serie: solapa-libro
-url: "https://youtu.be/KF_l8VHwJLM?si=D6ZuRr55u4ivbIgc"
 portada: /imagenes/pere-estupinya.png
 sindicado:
   - red: "Youtube"
     url: "https://youtu.be/KF_l8VHwJLM?si=D6ZuRr55u4ivbIgc"
 ---
+
+https://www.youtube.com/watch?v=KF_l8VHwJLM
 
 Pere es una de las caras más reconocibles en el ámbito científico en España. Es químico, bioquímico y divulgador.
 

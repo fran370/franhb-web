@@ -5,7 +5,6 @@ fecha: 2026-05-07
 tema:
   - ma-y-pe
 serie: ma-private-circle
-url: "https://www.youtube.com/watch?v=_ihYUT6C22o"
 portada: /imagenes/anta-asset-management.png
 sindicado:
   - red: "LinkedIn"
@@ -13,6 +12,8 @@ sindicado:
   - red: "Youtube"
     url: "https://www.youtube.com/watch?v=_ihYUT6C22o"
 ---
+
+https://www.youtube.com/watch?v=_ihYUT6C22o
 
 Ya está disponible la conversación que mantuvimos la semana pasada con [**Eduardo García-Oliveros Serrano**](https://www.linkedin.com/in/eduardo-garc%C3%ADa-oliveros-serrano-502aa292/) en [**FORO DE FOROS**](https://www.linkedin.com/company/forodeforos/).
 
@@ -27,5 +28,3 @@ Sigue a Foro de Foros y a [**ALBIA | IMAP, Fusiones y Adquisiciones M&A**](https
 ![](/imagenes/anta-asset-management-1.png)
 
 ![](/imagenes/anta-asset-management-2.png)
-
-https://www.youtube.com/watch?v=_ihYUT6C22o
