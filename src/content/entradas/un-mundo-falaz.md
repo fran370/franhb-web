@@ -5,7 +5,6 @@ fecha: 2026-06-01
 tema:
   - lecturas
 serie: club-lectura
-url: "https://www.youtube.com/watch?v=SrN9HMsS8dg&t=3020s"
 portada: /imagenes/un-mundo-falaz.png
 sindicado:
   - red: "LinkedIn"
@@ -13,6 +12,8 @@ sindicado:
   - red: "Youtube"
     url: "https://www.youtube.com/watch?v=SrN9HMsS8dg&t=3020s"
 ---
+
+https://www.youtube.com/watch?v=SrN9HMsS8dg&t=3020s
 
 Hace unos días tuve la oportunidad de participar en la 85 Feria del Libro de Madrid junto a mis compañeros de [**Asociación Club de Lectura Alexandreia**](https://www.linkedin.com/company/clubesdelecturaalexandreia/)
 
@@ -35,5 +36,3 @@ El libro elegido fue "Un mundo falaz", de [**Angel Gomez de Agreda**](https://ww
 - En libro Ángel destaca las dificultades de hacer frente a esta nueva realidad, como individuos y como instituciones.
 
 Gracias a [**David Cano**](https://www.linkedin.com/in/davidcanomartinez/) y [**Enrique Titos**](https://www.linkedin.com/in/enriquetitos/) por la dirección del evento y a mis compañeros de mesa, [**José de la Peña Aznar**](https://www.linkedin.com/in/sandopen/), Elena Titos, [**Francisco Sainz Fernandez**](https://www.linkedin.com/in/franciscosainzfernandez/), [**Diana Piedrahita**](https://www.linkedin.com/in/diana-piedrahita-c/) y [**Miriam Ardizzone**](https://www.linkedin.com/in/miriam-ardizzone-ba83b918/).
-
-https://www.youtube.com/watch?v=SrN9HMsS8dg&t=3020s
