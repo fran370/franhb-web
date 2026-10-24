@@ -36,6 +36,10 @@ Lo que hago ahora se puede resumir en mis roles: padre, aprendiz, emprendedor…
 
 - Trimestralmente organizo un desayuno con amigos y colaboradores para hablar de la actividad corporativa (M&A y Private Equity) en España. El próximo será en octubre para hablar del Q3 2026.
 
+- Desde mi empresa participo en la cátedra de empresa familiar de la Universidad de Salamanca, que patrocinamos con orgullo:
+
+    - Recientemente recibimos el premio Compromiso IME de la Escuela de Negocios de la Universidad de Salamanca. En el discurso resumimos qué nos motiva y el vínculo de la empresa que fundamos hace ya 10 años con esta institución histórica: https://www.youtube.com/watch?v=ckHMDYf3J3U&t=1099s
+
 - En Foro de Foros, presencialmente y en Madrid, entrevisto a profesionales del mundo de la inversión y de la empresa. En este caso en formato desayuno. Al menos una vez al trimestre.
 
     - ¿Por qué? ¿Qué nos motiva a lanzar este formato? (Vídeo): https://youtu.be/_ihYUT6C22o?si=_6HX9oyPLiOH8NFH
