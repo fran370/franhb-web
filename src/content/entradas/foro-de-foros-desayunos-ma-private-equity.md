@@ -15,4 +15,4 @@ En unos días anunciaremos el próximo invitado de M&A and Private Equity Circle
 
 En la última edición contamos con [**Yaukuma Armbruster**](https://www.linkedin.com/in/yaukumaarmbruster/) ([**Menako Capital - Operator Investors**](https://www.linkedin.com/company/menako/)). Fue un lujo escuchar su historia y experiencia. ¡Mil gracias, Yau!
 
-En este vídeo tenéis más información sobre qué hacemos en la fundación y qué relación tienen estos desayunos con sus objetivos.
+En este vídeo tenéis más información sobre qué hacemos en la fundación y qué relación tienen estos desayunos con sus objetivos: https://www.linkedin.com/feed/update/urn:li:activity:7520760010440642560/
